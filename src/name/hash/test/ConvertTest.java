@@ -5,8 +5,10 @@ import name.hash.NumericCharacterRefernceConverter;
 
 import org.junit.Test;
 
+/*
+ * ”’lQÆ•¶š‚©‚ç,À‘ÌQÆ•¶š‚Ö‚Ì•ÏŠ·‚ª‚Å‚«‚Ä‚¢‚é‚©
+ */
 public class ConvertTest {
-
 	@Test
 	public final void convertTest1() {
 		String testString = "&#31532;26&#22238; &#26085;&#26412;";

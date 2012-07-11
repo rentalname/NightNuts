@@ -49,6 +49,9 @@ public class TwitterApiConectionService {
 				line++;
 				System.out.println("SKIP:" + str);
 			}
+			if(str.equals("</statuses>")){
+				break;
+			}
 		}
 		return builder.toString();
 	}

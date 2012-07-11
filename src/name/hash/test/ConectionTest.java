@@ -3,15 +3,13 @@ package name.hash.test;
 import junit.framework.Assert;
 import name.hash.TwitterApiConectionService;
 
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-
-public class ConnectionTest {
-	TwitterApiConectionService connecter;
-	@Before
+@Ignore
+public class ConectionTest extends TwitterApiConectionService {
 	@Test
 	public void testConnect() {
-		connecter = new TwitterApiConectionService();
+		TwitterApiConectionService connecter = new TwitterApiConectionService();
 		Assert.assertEquals(connecter.connect(), true);
 	}
 

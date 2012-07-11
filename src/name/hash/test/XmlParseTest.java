@@ -1,17 +1,24 @@
 package name.hash.test;
 
+import junit.framework.Assert;
 import name.hash.TwitterApiConectionService;
 import name.hash.TwitterXmlParser;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TwitterXmlPaserTest {
+public class XmlParseTest {
+	TwitterApiConectionService connecter;
 	private TwitterXmlParser parser;
-
+	
 	@Before
+	public void testConnect() {
+		connecter = new TwitterApiConectionService();
+		Assert.assertEquals(connecter.connect(), true);
+	}
+	
+
 	@Test
 	public final void testParse() {
 		parser = new TwitterXmlParser();
@@ -20,11 +27,9 @@ public class TwitterXmlPaserTest {
 	}
 	
 	@After
-	@Test
 	public final void testShowTweet(){
 		parser.showTweet();
 	}
-	
 	
 
 }
