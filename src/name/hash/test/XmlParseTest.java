@@ -11,13 +11,12 @@ import org.junit.Test;
 public class XmlParseTest {
 	TwitterApiConectionService connecter;
 	private TwitterXmlParser parser;
-	
+
 	@Before
 	public void testConnect() {
 		connecter = new TwitterApiConectionService();
 		Assert.assertEquals(connecter.connect(), true);
 	}
-	
 
 	@Test
 	public final void testParse() {
@@ -25,11 +24,9 @@ public class XmlParseTest {
 		boolean succses = parser.parse(TwitterApiConectionService.XML_OUTPUT);
 		Assert.assertTrue(succses);
 	}
-	
+
 	@After
-	public final void testShowTweet(){
+	public final void testShowTweet() {
 		parser.showTweet();
 	}
-	
-
 }

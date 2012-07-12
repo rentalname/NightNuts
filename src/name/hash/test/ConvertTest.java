@@ -24,5 +24,4 @@ public class ConvertTest {
 		Assert.assertEquals(convert, "‘æ26‰ñ “ú–{Android‚Ì‰ï “Œ–kx•””­M‰ï : ATND http://t.co/1ykTvVd5 @atnd‚³‚ñ‚©‚ç");
 		System.out.println(convert);
 	}
-
 }

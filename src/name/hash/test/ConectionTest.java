@@ -12,5 +12,4 @@ public class ConectionTest extends TwitterApiConectionService {
 		TwitterApiConectionService connecter = new TwitterApiConectionService();
 		Assert.assertEquals(connecter.connect(), true);
 	}
-
 }
