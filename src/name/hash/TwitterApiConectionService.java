@@ -10,21 +10,21 @@ import java.net.Socket;
 
 public class TwitterApiConectionService {
 	public static final String XML_OUTPUT = "user_timeline.xml";
-	private final String URI = "api.twitter.com";
-	private final String path = "/1/statuses/user_timeline.xml";
-	private final String screenName = "rentalname_dev";
-	// private final String screenName = "rentalname";
-	private final String query = "?screen_name=" + screenName;
+
+	private final String uri = "api.twitter.com";
 	private final int port = 80;
 
+	private final String screenName = "rentalname_dev"; // OR "rentalname";
+	private final String path = "/1/statuses/user_timeline.xml";
+	private final String query = "?screen_name=" + screenName;
+	
 	public boolean connect() {
-		try (Socket socket = new Socket(URI, port);
-				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),
-						"UTF8"));
+		try (Socket socket = new Socket(uri, port);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF8"));
 				BufferedWriter sWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 				BufferedWriter fWriter = new BufferedWriter(new FileWriter(XML_OUTPUT))) {
 			sWriter.write("GET " + path + query + " HTTP/1.1\n");
-			sWriter.write("Host:" + URI + ":" + port + "\n");
+			sWriter.write("Host:" + uri + ":" + port + "\n");
 			sWriter.write("\n");
 			sWriter.flush();
 			String removeHeaderString = removeHeaderString(reader);
@@ -34,6 +34,13 @@ public class TwitterApiConectionService {
 			return false;
 		}
 		return true;
+	}
+	/*
+	 * api.twitterÇ÷ê⁄ë±Ç∑ÇÈç€ÇÃÉNÉGÉäÅ[ÇéÛÇØéÊÇ¡Çƒ,ê⁄ë±Ç∑ÇÈ
+	 */
+	public boolean connect(String[] query){
+		
+		return false;
 	}
 
 	private String removeHeaderString(BufferedReader reader) throws IOException {
@@ -49,11 +56,10 @@ public class TwitterApiConectionService {
 				line++;
 				System.out.println("SKIP:" + str);
 			}
-			if(str.equals("</statuses>")){
+			if (str.equals("</statuses>")) {
 				break;
 			}
 		}
 		return builder.toString();
 	}
-
 }
