@@ -1,7 +1,7 @@
 *.classpath
 *.project
 *.xml
-
+*.cld
 .settings/
 bin/
 .git/

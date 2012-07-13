@@ -19,6 +19,8 @@ public class QueryStringBuilder {
 		this.page = page;
 	}
 
+	//デフォルトコンストラクタの呼び出しを禁止する
+	@SuppressWarnings("unused")
 	private QueryStringBuilder() {
 	}
 
@@ -45,8 +47,8 @@ public class QueryStringBuilder {
 	/*
 	 * ビルダーのインスタンスを生成するファクトリーメソッド
 	 */
-	public static QueryStringBuilder getBuilder() {
-		return new QueryStringBuilder();
+	public static QueryStringBuilder getBuilder(String name) {
+		return new QueryStringBuilder(name);
 	}
 
 	public void queryPage(int page) {
