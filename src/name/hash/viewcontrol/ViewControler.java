@@ -100,7 +100,7 @@ public class ViewControler extends JFrame {
 		contentPane.add(tweetViewPane, BorderLayout.CENTER);
 
 		// リストの様子を表示するためのスタブデータ
-		String[] initData = { "Blue", "Green", "Red", "Whit", "Black" };
+		String[] initData = { "Blue ", "Green", "Red  ", "White", "Black" };
 
 		// ツイートを表示するリスト
 		JList<TweetModel> list = new JList<>(new TwitterListModel(initData));
