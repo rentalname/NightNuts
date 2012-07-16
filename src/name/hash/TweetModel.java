@@ -29,8 +29,12 @@ public class TweetModel {
 		return date;
 	}
 
+	static int delimiteCount = 1;
+
 	public void show() {
+		System.out.println("*** tweet No." + delimiteCount++ + " ***");
 		System.out.println(id + " : " + name + " : " + text + " : " + date);
+		System.out.println("");
 	}
 
 }

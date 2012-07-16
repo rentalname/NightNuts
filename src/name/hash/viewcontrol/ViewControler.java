@@ -17,12 +17,17 @@ import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import name.hash.TweetModel;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField nameField;
+	private final Action changeUserAction = new ChangeUserAction();
+	private final Action moreTweetAction = new MoreTweetAction();
 
 	/**
 	 * Launch the application.
@@ -68,33 +73,33 @@ public class ViewControler extends JFrame {
 		gbc_txtpnName.gridy = 0;
 		controlPane.add(txtpnName, gbc_txtpnName);
 
-		textField = new JTextField();
-		textField.setBackground(SystemColor.text);
+		nameField = new JTextField();
+		nameField.setBackground(SystemColor.text);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 0;
-		controlPane.add(textField, gbc_textField);
-		textField.setColumns(10);
+		controlPane.add(nameField, gbc_textField);
+		nameField.setColumns(10);
 
 		// タイムライン取得対象のユーザーを変更する
-		JButton btnUpdate = new JButton("Change User");
+		JButton btnCangeUser = new JButton(changeUserAction);
 		GridBagConstraints gbc_btnUpdate = new GridBagConstraints();
 		gbc_btnUpdate.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnUpdate.insets = new Insets(0, 0, 0, 5);
 		gbc_btnUpdate.gridx = 2;
 		gbc_btnUpdate.gridy = 0;
-		controlPane.add(btnUpdate, gbc_btnUpdate);
+		controlPane.add(btnCangeUser, gbc_btnUpdate);
 
 		// 次のページのツイートを取得する
-		JButton btnMore = new JButton("More...");
+		JButton btnMoreTweet = new JButton(moreTweetAction);
 		GridBagConstraints gbc_btnMore = new GridBagConstraints();
 		gbc_btnMore.insets = new Insets(0, 0, 0, 5);
 		gbc_btnMore.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnMore.gridx = 3;
 		gbc_btnMore.gridy = 0;
-		controlPane.add(btnMore, gbc_btnMore);
+		controlPane.add(btnMoreTweet, gbc_btnMore);
 
 		JPanel tweetViewPane = new JPanel();
 		contentPane.add(tweetViewPane, BorderLayout.CENTER);
@@ -103,8 +108,31 @@ public class ViewControler extends JFrame {
 		String[] initData = { "Blue ", "Green", "Red  ", "White", "Black" };
 
 		// ツイートを表示するリスト
-		JList<TweetModel> list = new JList<>(new TwitterListModel(initData));
+		TwitterListModel twitterListModel = new TwitterListModel(initData);
+		JList<TweetModel> list = new JList<>(twitterListModel);
 		list.setCellRenderer(new TweetListCellRenderer());
 		tweetViewPane.add(list);
+	}
+
+	private class ChangeUserAction extends AbstractAction {
+		public ChangeUserAction() {
+			putValue(NAME, "Change");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(nameField.getText());
+		}
+	}
+
+	private class MoreTweetAction extends AbstractAction {
+		public MoreTweetAction() {
+			putValue(NAME, "More...");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("MORE");
+		}
 	}
 }

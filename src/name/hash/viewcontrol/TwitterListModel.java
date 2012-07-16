@@ -15,21 +15,39 @@ public class TwitterListModel implements ListModel<TweetModel> {
 	Set<ListDataListener> set = new HashSet<>();
 	List<TweetModel> list = new ArrayList<>();
 
+	/**
+	 * 与えられた,String配列を,TweetModelオブジェクトに変換してリストに登録する
+	 * リストの生成が動作することの確認のために作成したスタブコンストラクタ
+	 * 
+	 * @param sArray
+	 *            TweetModelオブジェクトに変換されるString配列
+	 */
 	public TwitterListModel(String[] sArray) {
 		for (String s : sArray) {
 			list.add(new TweetModel(0, s, s, "999999"));
 		}
 	}
-
+	
+	/**
+	 * リストの要素に変更があったときに,変更を通知するリスナーを登録する
+	 * 
+	 * @param listener
+	 *            このリスナーを変更を通知先のリスナーとして登録する
+	 */
 	@Override
 	public void addListDataListener(ListDataListener listener) {
 		set.add(listener);
 	}
 
+	/**
+	 * リストが生成されるときに,自動的に呼び出されるメソッド.
+	 */
 	@Override
 	public TweetModel getElementAt(int index) {
 		if (index + 1 > list.size()) {
-			throw new ArrayIndexOutOfBoundsException("a index is larger than list size");
+			throw new ArrayIndexOutOfBoundsException("A index is larger than list size");
+		} else if (index < 0) {
+			throw new ArrayIndexOutOfBoundsException("Index is pointing to a value less than zero");
 		}
 		return list.get(index);
 	}
@@ -44,6 +62,11 @@ public class TwitterListModel implements ListModel<TweetModel> {
 		set.remove(listener);
 	}
 
+	/**
+	 * リストに新たな要素を追加する
+	 * 
+	 * @param model
+	 */
 	public void addTweetModel(TweetModel model) {
 		list.add(model);
 		for (ListDataListener l : set) {
@@ -51,4 +74,17 @@ public class TwitterListModel implements ListModel<TweetModel> {
 		}
 	}
 
+	/**
+	 * リストから指定された要素を取り除く
+	 * 
+	 * @param model
+	 */
+	public void removeTweetModel(TweetModel model) {
+		int modelIndex = list.indexOf(model);
+		list.remove(model);
+		for (ListDataListener l : set) {
+			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, modelIndex, list.size()));
+		}
+
+	}
 }
