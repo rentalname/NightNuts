@@ -10,7 +10,11 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import name.hash.TweetModel;
-
+/**
+ * ツイート内容を表示するためのリストのモデルをビューに提供する
+ * @author Hi
+ *
+ */
 public class TwitterListModel implements ListModel<TweetModel> {
 	Set<ListDataListener> set = new HashSet<>();
 	List<TweetModel> list = new ArrayList<>();
@@ -27,16 +31,27 @@ public class TwitterListModel implements ListModel<TweetModel> {
 			list.add(new TweetModel(0, s, s, "999999"));
 		}
 	}
-	
+
 	/**
 	 * リストの要素に変更があったときに,変更を通知するリスナーを登録する
 	 * 
 	 * @param listener
-	 *            このリスナーを変更を通知先のリスナーとして登録する
+	 *            このリスナーを変更通知先のリスナーとして登録する
 	 */
 	@Override
 	public void addListDataListener(ListDataListener listener) {
 		set.add(listener);
+	}
+
+	/**
+	 * 指定されたリスナーの登録を解除する
+	 * 
+	 * @param listener
+	 *            このリスナーの登録を解除する
+	 */
+	@Override
+	public void removeListDataListener(ListDataListener listener) {
+		set.remove(listener);
 	}
 
 	/**
@@ -55,11 +70,6 @@ public class TwitterListModel implements ListModel<TweetModel> {
 	@Override
 	public int getSize() {
 		return list.size();
-	}
-
-	@Override
-	public void removeListDataListener(ListDataListener listener) {
-		set.remove(listener);
 	}
 
 	/**
