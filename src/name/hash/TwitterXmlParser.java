@@ -31,11 +31,15 @@ public class TwitterXmlParser {
 		}
 		return true;
 	}
-	
-	public void showTweet(){
-		for(TweetModel t : list){
+
+	public void showTweet() {
+		for (TweetModel t : list) {
 			t.show();
 		}
+	}
+
+	public List<TweetModel> getList() {
+		return list;
 	}
 
 }

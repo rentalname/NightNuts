@@ -1,33 +1,26 @@
 package name.hash;
 
+/**
+ * api.twitter.comからタイムラインの情報を取得する際のクエリーを作成する
+ * 
+ * @author User
+ */
 public class QueryStringBuilder {
 	private long id = -1;
 	private String name;
+	// タイムラインのNページ目を取得する.0以上の整数
 	private int page = -1;
+	// 一度に取得するツイートの数.1~200までの整数
+	private int count = 10;
 
-	public QueryStringBuilder(String name) {
+	private QueryStringBuilder(String name) {
 		this.name = name;
-	}
-
-	public QueryStringBuilder(long id, String name) {
-		this(name);
-		this.id = id;
-	}
-
-	public QueryStringBuilder(long id, String name, int page) {
-		this(id, name);
-		this.page = page;
-	}
-
-	//デフォルトコンストラクタの呼び出しを禁止する
-	@SuppressWarnings("unused")
-	private QueryStringBuilder() {
 	}
 
 	/*
 	 * フィールドの情報に基づいて,クエリー文字列を発行する
 	 */
-	String buildQuery() {
+	public String buildQuery() {
 		StringBuilder builder = new StringBuilder("?");
 		if (id > -1) {
 			builder.append("user_id=");
@@ -40,6 +33,10 @@ public class QueryStringBuilder {
 		if (page > -1) {
 			builder.append("page=");
 			builder.append(page);
+		}
+		if (count > 0) {
+			builder.append("count=");
+			builder.append(count);
 		}
 		return builder.toString();
 	}
@@ -61,5 +58,9 @@ public class QueryStringBuilder {
 
 	public void queryId(long id) {
 		this.id = id;
+	}
+
+	public void queryCount(int count) {
+		this.count = count;
 	}
 }

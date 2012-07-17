@@ -10,18 +10,18 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import name.hash.TweetModel;
+
 /**
  * ツイート内容を表示するためのリストのモデルをビューに提供する
+ * 
  * @author Hi
- *
  */
 public class TwitterListModel implements ListModel<TweetModel> {
 	Set<ListDataListener> set = new HashSet<>();
 	List<TweetModel> list = new ArrayList<>();
 
 	/**
-	 * 与えられた,String配列を,TweetModelオブジェクトに変換してリストに登録する
-	 * リストの生成が動作することの確認のために作成したスタブコンストラクタ
+	 * 与えられた,String配列を,TweetModelオブジェクトに変換してリストに登録する リストの生成が動作することの確認のために作成したスタブコンストラクタ
 	 * 
 	 * @param sArray
 	 *            TweetModelオブジェクトに変換されるString配列
@@ -95,6 +95,5 @@ public class TwitterListModel implements ListModel<TweetModel> {
 		for (ListDataListener l : set) {
 			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, modelIndex, list.size()));
 		}
-
 	}
 }

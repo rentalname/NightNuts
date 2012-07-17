@@ -16,7 +16,7 @@ public class TwitterApiConectionService {
 
 	private final String screenName = "rentalname_dev"; // OR "rentalname";
 	private final String path = "/1/statuses/user_timeline.xml";
-	private final String query = "?screen_name=" + screenName;
+	private String query = "?screen_name=" + screenName;
 	
 	public boolean connect() {
 		try (Socket socket = new Socket(uri, port);
@@ -27,8 +27,8 @@ public class TwitterApiConectionService {
 			sWriter.write("Host:" + uri + ":" + port + "\n");
 			sWriter.write("\n");
 			sWriter.flush();
-			String removeHeaderString = removeHeaderString(reader);
-			fWriter.write(removeHeaderString);
+			String bodyString = removeHeaderString(reader);
+			fWriter.write(bodyString);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -38,9 +38,9 @@ public class TwitterApiConectionService {
 	/*
 	 * api.twitter‚ÖÚ‘±‚·‚éÛ‚ÌƒNƒGƒŠ[‚ğó‚¯æ‚Á‚Ä,Ú‘±‚·‚é
 	 */
-	public boolean connect(String[] query){
-		
-		return false;
+	public boolean connect(String query){
+		this.query = query;
+		return connect();
 	}
 
 	private String removeHeaderString(BufferedReader reader) throws IOException {
