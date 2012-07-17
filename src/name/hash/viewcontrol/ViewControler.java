@@ -20,6 +20,9 @@ import name.hash.TweetModel;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
@@ -45,6 +48,7 @@ public class ViewControler extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewControler() {
+		setTitle("NN");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -110,6 +114,8 @@ public class ViewControler extends JFrame {
 		// ツイートを表示するリスト
 		TwitterListModel twitterListModel = new TwitterListModel(initData);
 		JList<TweetModel> list = new JList<>(twitterListModel);
+		list.setAlignmentY(Component.TOP_ALIGNMENT);
+		list.setBorder(new MatteBorder(0, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		list.setCellRenderer(new TweetListCellRenderer());
 		tweetViewPane.add(list);
 	}
