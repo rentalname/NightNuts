@@ -19,22 +19,30 @@ public class QueryStringBuilder {
 
 	/*
 	 * フィールドの情報に基づいて,クエリー文字列を発行する
+	 * screen_nameもしくはuser_idのいずれかが設定さている必要がある
 	 */
 	public String buildQuery() {
 		StringBuilder builder = new StringBuilder("?");
-		if (id > -1) {
-			builder.append("user_id=");
-			builder.append(id);
-		}
+		boolean isNameQueryEnabled = false;
 		if (name != null) {
 			builder.append("screen_name=");
 			builder.append(name);
+			isNameQueryEnabled = true;
+		}
+		if (id > -1) {
+			if (isNameQueryEnabled) {
+				builder.append('&');
+			}
+			builder.append("user_id=");
+			builder.append(id);
 		}
 		if (page > -1) {
+			builder.append('&');
 			builder.append("page=");
 			builder.append(page);
 		}
 		if (count > 0) {
+			builder.append('&');
 			builder.append("count=");
 			builder.append(count);
 		}
