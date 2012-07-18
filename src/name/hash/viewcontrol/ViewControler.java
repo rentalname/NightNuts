@@ -24,6 +24,9 @@ import javax.swing.border.MatteBorder;
 
 import name.hash.TweetModel;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
@@ -42,15 +45,22 @@ public class ViewControler extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				ViewControler frame = new ViewControler();
+				frame.setSize(new Dimension(600, 800));
 				frame.setVisible(true);
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public ViewControler() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+			}
+		});
 		setTitle("Night Nuts");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

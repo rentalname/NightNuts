@@ -14,7 +14,7 @@ public class TwitterApiConectionService {
 	private final String uri = "api.twitter.com";
 	private final int port = 80;
 
-	private final String screenName = "rentalname_dev"; // OR "rentalname";
+	private final String screenName = "rentalname_dev";
 	private final String path = "/1/statuses/user_timeline.xml";
 	private String query = "?screen_name=" + screenName;
 	

@@ -26,7 +26,7 @@ public class TwitterListRow extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 3.0, 0.5, 1.0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 5.0, 0.5, 1.0 };
 		gridBagLayout.rowWeights = new double[] { 1.0 };
 		setLayout(gridBagLayout);
 
