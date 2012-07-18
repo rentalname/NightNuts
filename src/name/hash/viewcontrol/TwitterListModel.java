@@ -21,7 +21,7 @@ public class TwitterListModel implements ListModel<TweetModel> {
 	List<TweetModel> list = new ArrayList<>();
 
 	/**
-	 * 与えられた,String配列を,TweetModelオブジェクトに変換してリストに登録する リストの生成が動作することの確認のために作成したスタブコンストラクタ
+	 * 与えられたString配列を,TweetModelオブジェクトに変換してリストに登録する
 	 * 
 	 * @param sArray
 	 *            TweetModelオブジェクトに変換されるString配列
@@ -29,6 +29,12 @@ public class TwitterListModel implements ListModel<TweetModel> {
 	public TwitterListModel(String[] sArray) {
 		for (String s : sArray) {
 			list.add(new TweetModel(0, s, s, "999999"));
+		}
+	}
+
+	public TwitterListModel(List<TweetModel> tList) {
+		for (TweetModel m : tList) {
+			list.add(m);
 		}
 	}
 

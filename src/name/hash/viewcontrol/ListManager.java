@@ -7,11 +7,15 @@ import name.hash.TweetModel;
 import name.hash.TwitterApiConectionService;
 import name.hash.TwitterXmlParser;
 
-public class Manager implements TwitterListManager {
+public class ListManager implements TwitterListManager {
 	private long id = -1;
 	private String userName;
-	private int page;
+	private int page = 0;
 	private int count = 10;
+
+	public ListManager(String name) {
+		userName = name;
+	}
 
 	@Override
 	public List<TweetModel> getList() {
