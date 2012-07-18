@@ -10,7 +10,7 @@ import name.hash.TwitterXmlParser;
 public class ListManager implements TwitterListManager {
 	private long id = -1;
 	private String userName;
-	private int page = 0;
+	private int page = 1;
 	private int count = 10;
 
 	public ListManager(String name) {
@@ -24,14 +24,13 @@ public class ListManager implements TwitterListManager {
 	}
 
 	public List<TweetModel> nextPage() {
-		page++;
+		++page;
 		return getList();
 	}
 
-	public List<TweetModel> changeUser(String name) {
+	public void changeUser(String name) {
 		userName = name;
-		page = 0;
-		return getList();
+		page = 1;
 	}
 
 	public void chamgeCount(int num) {

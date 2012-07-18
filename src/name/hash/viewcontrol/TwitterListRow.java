@@ -52,7 +52,7 @@ public class TwitterListRow extends JPanel {
 		userName.setBackground(SystemColor.info);
 		userName.setEditable(false);
 		userNameColumn.add(userName);
-		userName.setColumns(10);
+		userName.setColumns(12);
 
 		JPanel tweetTextColumn = new JPanel();
 		tweetTextColumn.setBackground(SystemColor.inactiveCaptionText);
@@ -75,7 +75,7 @@ public class TwitterListRow extends JPanel {
 		tweetText.setBackground(SystemColor.info);
 		tweetText.setEditable(false);
 		tweetTextColumn.add(tweetText);
-		tweetText.setColumns(25);
+		tweetText.setColumns(40);
 
 		JPanel userIdColumn = new JPanel();
 		userIdColumn.setBackground(SystemColor.inactiveCaptionText);
@@ -98,7 +98,7 @@ public class TwitterListRow extends JPanel {
 		userId.setBackground(SystemColor.info);
 		userId.setEditable(false);
 		userIdColumn.add(userId);
-		userId.setColumns(5);
+		userId.setColumns(12);
 
 		JPanel tweetDateColumn = new JPanel();
 		tweetDateColumn.setBackground(SystemColor.inactiveCaptionText);
@@ -120,7 +120,7 @@ public class TwitterListRow extends JPanel {
 		tweetDate.setBackground(SystemColor.info);
 		tweetDate.setEditable(false);
 		tweetDateColumn.add(tweetDate);
-		tweetDate.setColumns(5);
+		tweetDate.setColumns(17);
 	}
 
 	void setUserName(String name) {

@@ -108,4 +108,12 @@ public class TwitterListModel implements ListModel<TweetModel> {
 			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, modelIndex, list.size()));
 		}
 	}
+
+	public void allRemoveTweetModel() {
+		int modelIndex = list.size();
+		list.clear();
+		for (ListDataListener l : set) {
+			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, 0, modelIndex));
+		}
+	}
 }

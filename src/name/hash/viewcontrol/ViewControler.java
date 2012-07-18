@@ -1,6 +1,7 @@
 package name.hash.viewcontrol;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -22,8 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import name.hash.TweetModel;
-import javax.swing.border.MatteBorder;
-import java.awt.Color;
+import javax.swing.ScrollPaneConstants;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
@@ -111,12 +111,13 @@ public class ViewControler extends JFrame {
 		manager = new ListManager("jihou");
 		twitterListModel = new TwitterListModel(manager.getList());
 		JList<TweetModel> list = new JList<>(twitterListModel);
-		list.setAlignmentY(Component.TOP_ALIGNMENT);
 		list.setBorder(new MatteBorder(0, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		list.setAlignmentY(Component.TOP_ALIGNMENT);
 		list.setCellRenderer(new TweetListCellRenderer());
 
 		// JList‚ðJScrollPane‚É’Ç‰Á
 		JScrollPane tweetViewPane = new JScrollPane(list);
+		tweetViewPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(tweetViewPane, BorderLayout.CENTER);
 	}
 
@@ -128,7 +129,9 @@ public class ViewControler extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("*** CHANGE USER ***");
-			twitterListModel = new TwitterListModel(manager.changeUser(nameField.getText()));
+			manager.changeUser(nameField.getText());
+			twitterListModel.allRemoveTweetModel();
+			twitterListModel.addTweetModel(manager.getList());
 		}
 	}
 
