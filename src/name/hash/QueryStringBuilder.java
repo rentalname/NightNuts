@@ -19,6 +19,7 @@ public class QueryStringBuilder {
 
 	/*
 	 * フィールドの情報に基づいて,クエリー文字列を発行する
+	 * screen_nameもしくはuser_idのいずれかが設定さている必要がある
 	 */
 	public String buildQuery() {
 		StringBuilder builder = new StringBuilder("?");

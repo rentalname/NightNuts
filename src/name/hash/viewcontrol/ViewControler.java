@@ -20,6 +20,8 @@ import name.hash.TweetModel;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
@@ -28,6 +30,8 @@ public class ViewControler extends JFrame {
 	private JTextField nameField;
 	private final Action changeUserAction = new ChangeUserAction();
 	private final Action moreTweetAction = new MoreTweetAction();
+	private ListManager manager;
+	private TwitterListModel twitterListModel;
 
 	/**
 	 * Launch the application.
@@ -45,6 +49,7 @@ public class ViewControler extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewControler() {
+		setTitle("Night Nuts");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -55,7 +60,7 @@ public class ViewControler extends JFrame {
 		JPanel controlPane = new JPanel();
 		contentPane.add(controlPane, BorderLayout.SOUTH);
 		GridBagLayout gbl_controlPane = new GridBagLayout();
-		gbl_controlPane.columnWidths = new int[] { 50, 120, 90, 50 };
+		gbl_controlPane.columnWidths = new int[] { 50, 179, 90, 50 };
 		gbl_controlPane.rowHeights = new int[] { 21 };
 		gbl_controlPane.columnWeights = new double[] { 0.0, 2.0, 1.5, 1.5 };
 		gbl_controlPane.rowWeights = new double[] { 0.0 };
@@ -100,17 +105,17 @@ public class ViewControler extends JFrame {
 		gbc_btnMore.gridx = 3;
 		gbc_btnMore.gridy = 0;
 		controlPane.add(btnMoreTweet, gbc_btnMore);
-
+		
 		JPanel tweetViewPane = new JPanel();
 		contentPane.add(tweetViewPane, BorderLayout.CENTER);
 
 		// リストの様子を表示するためのスタブデータ
 		// String[] initData = { "Blue ", "Green", "Red  ", "White", "Black" };
 
-		// ツイートを表示するリスト
-		ListManager manager = new ListManager("jihou");
-		TwitterListModel twitterListModel = new TwitterListModel(manager.getList());
+		manager = new ListManager("jihou");
+		twitterListModel = new TwitterListModel(manager.getList());
 		JList<TweetModel> list = new JList<>(twitterListModel);
+		list.setBorder(new MatteBorder(0, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		list.setCellRenderer(new TweetListCellRenderer());
 		tweetViewPane.add(list);
 	}
@@ -122,7 +127,8 @@ public class ViewControler extends JFrame {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(nameField.getText());
+			System.out.println("*** CHANGE USER ***");
+			twitterListModel = new TwitterListModel(manager.changeUser(nameField.getText()));
 		}
 	}
 
@@ -134,6 +140,7 @@ public class ViewControler extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("MORE");
+			twitterListModel.addTweetModel(manager.nextPage());
 		}
 	}
 }

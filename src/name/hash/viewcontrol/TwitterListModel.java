@@ -90,6 +90,12 @@ public class TwitterListModel implements ListModel<TweetModel> {
 		}
 	}
 
+	public void addTweetModel(List<TweetModel> list) {
+		for (TweetModel model : list) {
+			addTweetModel(model);
+		}
+	}
+
 	/**
 	 * リストから指定された要素を取り除く
 	 * 
