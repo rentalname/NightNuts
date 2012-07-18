@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
@@ -106,12 +107,6 @@ public class ViewControler extends JFrame {
 		gbc_btnMore.gridx = 3;
 		gbc_btnMore.gridy = 0;
 		controlPane.add(btnMoreTweet, gbc_btnMore);
-		
-		JPanel tweetViewPane = new JPanel();
-		contentPane.add(tweetViewPane, BorderLayout.CENTER);
-
-		// リストの様子を表示するためのスタブデータ
-		// String[] initData = { "Blue ", "Green", "Red  ", "White", "Black" };
 
 		manager = new ListManager("jihou");
 		twitterListModel = new TwitterListModel(manager.getList());
@@ -119,7 +114,10 @@ public class ViewControler extends JFrame {
 		list.setAlignmentY(Component.TOP_ALIGNMENT);
 		list.setBorder(new MatteBorder(0, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		list.setCellRenderer(new TweetListCellRenderer());
-		tweetViewPane.add(list);
+
+		// JListをJScrollPaneに追加
+		JScrollPane tweetViewPane = new JScrollPane(list);
+		contentPane.add(tweetViewPane, BorderLayout.CENTER);
 	}
 
 	private class ChangeUserAction extends AbstractAction {
