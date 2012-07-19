@@ -3,12 +3,22 @@ package name.hash.viewcontrol;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -19,18 +29,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import name.hash.TweetModel;
-import javax.swing.ScrollPaneConstants;
-import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
 
+	private static final String CONFIGURATION_DIR = "./.config/";
+	private static final String CONFIGURATION_FILE = CONFIGURATION_DIR + "window_config";
 	private JPanel contentPane;
 	private JTextField nameField;
 	private final Action changeUserAction = new ChangeUserAction();
@@ -45,29 +54,34 @@ public class ViewControler extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				ViewControler frame = new ViewControler();
-				frame.setSize(new Dimension(600, 800));
+				frame.setSize(new Dimension(800, 800));
 				frame.setVisible(true);
 			}
 		});
 	}
-	
 
 	/**
 	 * Create the frame.
 	 */
 	public ViewControler() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-			}
-		});
+		
+		loadWindowLocation(this);
+
 		setTitle("Night Nuts");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				// ウィンドウが閉じられた際の位置を記録して,アプリケーション起動時にロード
+				Point location = getLocation();
+				saveWindowLocation(location);
+			}
+		});
 
 		JPanel controlPane = new JPanel();
 		contentPane.add(controlPane, BorderLayout.SOUTH);
@@ -131,6 +145,33 @@ public class ViewControler extends JFrame {
 		contentPane.add(tweetViewPane, BorderLayout.CENTER);
 	}
 
+	private void loadWindowLocation(JFrame frame) {
+		File file = new File(CONFIGURATION_FILE);
+		if (!file.exists()) {
+			return;
+		}
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String str = br.readLine();
+			String[] split = str.split(",");
+			frame.setBounds(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0, 0);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void saveWindowLocation(Point location) {
+		File file = new File(CONFIGURATION_DIR);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(CONFIGURATION_FILE));) {
+			writer.write(location.x + "," + location.y);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private class ChangeUserAction extends AbstractAction {
 		public ChangeUserAction() {
 			putValue(NAME, "Change");
@@ -139,13 +180,13 @@ public class ViewControler extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("*** CHANGE USER ***");
-			
+
 			String text = nameField.getText();
-			if(text.length() > 0){
+			if (text.length() > 0) {
 				manager.changeUser(text);
 				twitterListModel.allRemoveTweetModel();
 				twitterListModel.addTweetModel(manager.getList());
-			}else{
+			} else {
 				System.out.println("User name field is empty");
 			}
 		}
