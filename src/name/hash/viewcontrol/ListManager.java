@@ -1,5 +1,6 @@
 package name.hash.viewcontrol;
 
+import java.util.Collections;
 import java.util.List;
 
 import name.hash.QueryStringBuilder;
@@ -19,8 +20,12 @@ public class ListManager implements TwitterListManager {
 
 	@Override
 	public List<TweetModel> getList() {
-		conection();
-		return parse();
+		boolean success = conection();
+		
+		if (success)
+			return parse();
+		else
+			return Collections.emptyList();
 	}
 
 	public List<TweetModel> nextPage() {
@@ -37,14 +42,14 @@ public class ListManager implements TwitterListManager {
 		count = num;
 	}
 
-	private void conection() {
+	private boolean conection() {
 		QueryStringBuilder builder = QueryStringBuilder.getBuilder(userName);
 		builder.queryId(id);
 		builder.queryPage(page);
 		builder.queryCount(count);
 
 		TwitterApiConectionService service = new TwitterApiConectionService();
-		service.connect(builder.buildQuery());
+		return service.connect(builder.buildQuery());
 	}
 
 	private List<TweetModel> parse() {

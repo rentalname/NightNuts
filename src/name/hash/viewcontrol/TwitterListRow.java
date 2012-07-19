@@ -19,6 +19,22 @@ public class TwitterListRow extends JPanel {
 	private JTextField userId;
 	private JTextField tweetDate;
 
+	void setUserName(String name) {
+		userName.setText(name);
+	}
+
+	void setTweetText(String text) {
+		tweetText.setText(text);
+	}
+
+	void setUserId(String Id) {
+		userId.setText(Id);
+	}
+
+	void setTweetDate(String date) {
+		tweetDate.setText(date);
+	}
+
 	/**
 	 * Create the panel.
 	 */
@@ -121,21 +137,5 @@ public class TwitterListRow extends JPanel {
 		tweetDate.setEditable(false);
 		tweetDateColumn.add(tweetDate);
 		tweetDate.setColumns(17);
-	}
-
-	void setUserName(String name) {
-		userName.setText(name);
-	}
-
-	void setTweetText(String text) {
-		tweetText.setText(text);
-	}
-
-	void setUserId(String Id) {
-		userId.setText(Id);
-	}
-
-	void setTweetDate(String date) {
-		tweetDate.setText(date);
 	}
 }

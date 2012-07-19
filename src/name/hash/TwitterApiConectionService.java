@@ -32,6 +32,9 @@ public class TwitterApiConectionService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
+		} catch (UserNotFoundExeption e) {
+			System.err.println(e.getMessage());
+			return false;
 		}
 		return true;
 	}
@@ -43,7 +46,7 @@ public class TwitterApiConectionService {
 		return connect();
 	}
 
-	private String removeHeaderString(BufferedReader reader) throws IOException {
+	private String removeHeaderString(BufferedReader reader) throws IOException, UserNotFoundExeption {
 		final int HEADER_LINE = 17;
 		StringBuilder builder = new StringBuilder();
 		String str;
@@ -54,6 +57,11 @@ public class TwitterApiConectionService {
 				System.out.println(str);
 			} else {
 				line++;
+				if(str.equals("Status: 404 Not Found")){
+					//ユーザが見つからなかったときの処理
+					//新たなユーザの指定を促す
+					throw new UserNotFoundExeption("User with the specified name does not exist");
+				}
 				System.out.println("SKIP:" + str);
 			}
 			if (str.equals("</statuses>")) {

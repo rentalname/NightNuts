@@ -92,31 +92,31 @@ public class ViewControler extends JFrame {
 
 		nameField = new JTextField();
 		nameField.setBackground(SystemColor.text);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 0, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		controlPane.add(nameField, gbc_textField);
+		GridBagConstraints gbc_nameField = new GridBagConstraints();
+		gbc_nameField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nameField.insets = new Insets(0, 0, 0, 5);
+		gbc_nameField.gridx = 1;
+		gbc_nameField.gridy = 0;
+		controlPane.add(nameField, gbc_nameField);
 		nameField.setColumns(10);
 
 		// タイムライン取得対象のユーザーを変更する
 		JButton btnCangeUser = new JButton(changeUserAction);
-		GridBagConstraints gbc_btnUpdate = new GridBagConstraints();
-		gbc_btnUpdate.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnUpdate.insets = new Insets(0, 0, 0, 5);
-		gbc_btnUpdate.gridx = 2;
-		gbc_btnUpdate.gridy = 0;
-		controlPane.add(btnCangeUser, gbc_btnUpdate);
+		GridBagConstraints gbc_btnChangeUser = new GridBagConstraints();
+		gbc_btnChangeUser.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 5);
+		gbc_btnChangeUser.gridx = 2;
+		gbc_btnChangeUser.gridy = 0;
+		controlPane.add(btnCangeUser, gbc_btnChangeUser);
 
 		// 次のページのツイートを取得する
 		JButton btnMoreTweet = new JButton(moreTweetAction);
-		GridBagConstraints gbc_btnMore = new GridBagConstraints();
-		gbc_btnMore.insets = new Insets(0, 0, 0, 5);
-		gbc_btnMore.anchor = GridBagConstraints.NORTHEAST;
-		gbc_btnMore.gridx = 3;
-		gbc_btnMore.gridy = 0;
-		controlPane.add(btnMoreTweet, gbc_btnMore);
+		GridBagConstraints gbc_btnMoreTweet = new GridBagConstraints();
+		gbc_btnMoreTweet.insets = new Insets(0, 0, 0, 5);
+		gbc_btnMoreTweet.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnMoreTweet.gridx = 3;
+		gbc_btnMoreTweet.gridy = 0;
+		controlPane.add(btnMoreTweet, gbc_btnMoreTweet);
 
 		manager = new ListManager("jihou");
 		twitterListModel = new TwitterListModel(manager.getList());
@@ -139,9 +139,15 @@ public class ViewControler extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("*** CHANGE USER ***");
-			manager.changeUser(nameField.getText());
-			twitterListModel.allRemoveTweetModel();
-			twitterListModel.addTweetModel(manager.getList());
+			
+			String text = nameField.getText();
+			if(text.length() > 0){
+				manager.changeUser(text);
+				twitterListModel.allRemoveTweetModel();
+				twitterListModel.addTweetModel(manager.getList());
+			}else{
+				System.out.println("User name field is empty");
+			}
 		}
 	}
 
