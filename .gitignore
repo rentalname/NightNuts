@@ -2,6 +2,8 @@
 *.project
 *.xml
 *.cld
+twitter4j.properties
 .settings/
+.config/
 bin/
 .git/

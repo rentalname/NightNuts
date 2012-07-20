@@ -1,4 +1,4 @@
-package name.hash.test;
+package name.hash.regressiontest;
 
 import name.hash.TweetModel;
 import name.hash.viewcontrol.TwitterListModel;

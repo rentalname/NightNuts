@@ -1,0 +1,19 @@
+Twitter4Jの設定の仕方
+
+1.［twitter4j.properties］という名前のファイルをカレントディレクトリに作成する
+ 1.1 ファイル内部は
+		debug=true
+		oauth.consumerKey=*****************
+		oauth.consumerSecret=***********************
+		oauth.accessToken=****************************************
+		oauth.accessTokenSecret=**********************************
+	のような形にする
+	参考URL：http://twitter4j.org/ja/configuration.html
+2.利用方法-HomeTimeLineの取得
+	Twitter twitter = new TwitterFactory().getInstance();
+    User user = twitter.verifyCredentials();
+    List<Status> statuses = twitter.getHomeTimeline();
+    System.out.println("Showing @" + user.getScreenName() + "'s home timeline.");
+    for (Status status : statuses) {
+        System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
+    }

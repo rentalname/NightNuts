@@ -1,4 +1,4 @@
-package name.hash.test;
+package name.hash.regressiontest;
 
 import junit.framework.Assert;
 import name.hash.TwitterApiConectionService;
