@@ -1,3 +1,3 @@
 Twitter client in intensive production
 	-Specify the user, get the time line has become possible to
-	*While creating a function using the Twitter4J, oAuth to authenticate
+	-Using the Twitter4J, oAuth to authenticate
