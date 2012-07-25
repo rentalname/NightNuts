@@ -14,6 +14,10 @@ public class ListManager implements TwitterListManager {
 	private int page = 1;
 	private int count = 10;
 
+	enum State {
+		Home, User
+	}
+
 	public ListManager(String name) {
 		userName = name;
 	}
@@ -21,7 +25,7 @@ public class ListManager implements TwitterListManager {
 	@Override
 	public List<TweetModel> getList() {
 		boolean success = conection();
-		
+
 		if (success)
 			return parse();
 		else
@@ -56,5 +60,23 @@ public class ListManager implements TwitterListManager {
 		TwitterXmlParser parser = new TwitterXmlParser();
 		parser.parse(TwitterApiConectionService.XML_OUTPUT);
 		return parser.getList();
+	}
+
+	@Override
+	public List<TweetModel> getHomeTimeline() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TweetModel> getUserTimeline() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TweetModel> getMoreTimeline() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

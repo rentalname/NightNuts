@@ -1,5 +1,11 @@
 package name.hash.twitterprovider;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import name.hash.TweetModel;
+
 import org.junit.Assert;
 
 import twitter4j.Paging;
@@ -13,43 +19,49 @@ public class Twiter4JCliant {
 	private Twitter tw = TwitterFactory.getSingleton();
 	private Paging page = new Paging(1);
 
-	public void getUserTimeLine(String name) {
+	public List<TweetModel> getUserTimeLine(String name) {
 		try {
 			ResponseList<Status> list = tw.getUserTimeline(name);
-			showStatus(list);
+			return convertList(list);
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
+		return Collections.emptyList();
 	}
 
+	public List<TweetModel> getNextHomeTimeLine() {
+		page.setPage(page.getPage() + 1);
+		Assert.assertTrue(page.getPage() > 0);
+		return getHomeTimeLine(page);
+	}
+
+	public List<TweetModel> getHomeTimeLine(Paging p) {
+		try {
+			ResponseList<Status> list = tw.getHomeTimeline(p);
+			return convertList(list);
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+
+	public List<TweetModel> getHomeTimeLine() {
+		return getHomeTimeLine(new Paging(1));
+	}
+
+	private List<TweetModel> convertList(ResponseList<Status> list) {
+		List<TweetModel> tmList = new ArrayList<>();
+		for (Status s : list) {
+			tmList.add(new TweetModel(s.getId(), s.getUser().getName(), s.getText(), s.getCreatedAt().toString()));
+		}
+		return tmList;
+	}
+
+	@SuppressWarnings("unused")
 	private void showStatus(ResponseList<Status> list) {
 		for (Status s : list) {
 			System.out.println(s.getText());
 		}
-	}
-
-	public void getHomeTimeLine() {
-		try {
-			ResponseList<Status> list = tw.getHomeTimeline();
-			showStatus(list);
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void getHomeTimeLine(Paging p) {
-		try {
-			ResponseList<Status> list = tw.getHomeTimeline(p);
-			showStatus(list);
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void getNextHomeTimeLine() {
-		page.setPage(page.getPage() + 1);
-		Assert.assertTrue(page.getPage() > 0);
-		getHomeTimeLine(page);
 	}
 
 }

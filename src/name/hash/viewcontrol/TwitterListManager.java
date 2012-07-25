@@ -8,4 +8,10 @@ public interface TwitterListManager {
 
 	// パースされたデータからTweetListを作成する
 	List<TweetModel> getList();
+
+	List<TweetModel> getHomeTimeline();
+
+	List<TweetModel> getUserTimeline();
+
+	List<TweetModel> getMoreTimeline();
 }

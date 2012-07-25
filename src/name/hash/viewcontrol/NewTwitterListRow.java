@@ -1,6 +1,5 @@
 package name.hash.viewcontrol;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.SystemColor;
@@ -8,7 +7,6 @@ import java.awt.SystemColor;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.MatteBorder;
 
 public class NewTwitterListRow extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -28,19 +26,19 @@ public class NewTwitterListRow extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		JPanel userNameColumn = new JPanel();
-		userNameColumn.setBorder(new MatteBorder(0, 1, 1, 0, (Color) new Color(0, 0, 0)));
+		userNameColumn.setBorder(null);
 		add(userNameColumn);
 		userNameColumn.setLayout(new GridLayout(0, 1, 0, 0));
 
 		userName = new JTextField();
-		userName.setMargin(new Insets(0, 0, 0, 0));
+		userName.setMargin(new Insets(0, 3, 0, 0));
 		userName.setBackground(SystemColor.info);
 		userName.setEditable(false);
 		userName.setColumns(12);
 		userNameColumn.add(userName);
 
 		JPanel tweetTextColumn = new JPanel();
-		tweetTextColumn.setBorder(new MatteBorder(0, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tweetTextColumn.setBorder(null);
 		add(tweetTextColumn);
 		tweetTextColumn.setLayout(new GridLayout(0, 1, 0, 0));
 

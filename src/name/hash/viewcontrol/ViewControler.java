@@ -34,6 +34,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import name.hash.TweetModel;
+import name.hash.twitterprovider.Twiter4JCliant;
+
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
@@ -44,8 +49,12 @@ public class ViewControler extends JFrame {
 	private JTextField nameField;
 	private final Action changeUserAction = new ChangeUserAction();
 	private final Action moreTweetAction = new MoreTweetAction();
+	private final Action moreHomeTimelineAction = new MoreHomeTimelineAction();
 	private ListManager manager;
+	private Twiter4JCliant cliant = new Twiter4JCliant();
 	private TwitterListModel twitterListModel;
+	private JToggleButton userHomeChange;
+	private JButton btnMoreTweet;
 
 	/**
 	 * Launch the application.
@@ -64,7 +73,7 @@ public class ViewControler extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewControler() {
-		
+
 		loadWindowLocation(this);
 
 		setTitle("Night Nuts");
@@ -86,11 +95,33 @@ public class ViewControler extends JFrame {
 		JPanel controlPane = new JPanel();
 		contentPane.add(controlPane, BorderLayout.SOUTH);
 		GridBagLayout gbl_controlPane = new GridBagLayout();
-		gbl_controlPane.columnWidths = new int[] { 50, 179, 90, 50 };
+		gbl_controlPane.columnWidths = new int[] { 0, 50, 179, 90, 50 };
 		gbl_controlPane.rowHeights = new int[] { 21 };
-		gbl_controlPane.columnWeights = new double[] { 0.0, 2.0, 1.5, 1.5 };
+		gbl_controlPane.columnWeights = new double[] { 0.0, 0.0, 2.0, 1.5, 1.5 };
 		gbl_controlPane.rowWeights = new double[] { 0.0 };
 		controlPane.setLayout(gbl_controlPane);
+
+		userHomeChange = new JToggleButton("H/U");
+		userHomeChange.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent ce) {
+				if (userHomeChange.isSelected()) {
+					twitterListModel.allRemoveTweetModel();
+					twitterListModel.addTweetModel(cliant.getHomeTimeLine());
+					btnMoreTweet.removeActionListener(moreTweetAction);
+					btnMoreTweet.addActionListener(moreHomeTimelineAction);
+				} else {
+					twitterListModel.allRemoveTweetModel();
+					twitterListModel.addTweetModel(manager.getList());
+					btnMoreTweet.removeActionListener(moreHomeTimelineAction);
+					btnMoreTweet.addActionListener(moreTweetAction);
+				}
+			}
+		});
+		GridBagConstraints gbc_tglbtnHu = new GridBagConstraints();
+		gbc_tglbtnHu.insets = new Insets(0, 0, 0, 5);
+		gbc_tglbtnHu.gridx = 0;
+		gbc_tglbtnHu.gridy = 0;
+		controlPane.add(userHomeChange, gbc_tglbtnHu);
 
 		JTextPane txtpnName = new JTextPane();
 		txtpnName.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -100,7 +131,7 @@ public class ViewControler extends JFrame {
 		GridBagConstraints gbc_txtpnName = new GridBagConstraints();
 		gbc_txtpnName.anchor = GridBagConstraints.EAST;
 		gbc_txtpnName.insets = new Insets(0, 0, 0, 5);
-		gbc_txtpnName.gridx = 0;
+		gbc_txtpnName.gridx = 1;
 		gbc_txtpnName.gridy = 0;
 		controlPane.add(txtpnName, gbc_txtpnName);
 
@@ -109,7 +140,7 @@ public class ViewControler extends JFrame {
 		GridBagConstraints gbc_nameField = new GridBagConstraints();
 		gbc_nameField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nameField.insets = new Insets(0, 0, 0, 5);
-		gbc_nameField.gridx = 1;
+		gbc_nameField.gridx = 2;
 		gbc_nameField.gridy = 0;
 		controlPane.add(nameField, gbc_nameField);
 		nameField.setColumns(10);
@@ -119,16 +150,14 @@ public class ViewControler extends JFrame {
 		GridBagConstraints gbc_btnChangeUser = new GridBagConstraints();
 		gbc_btnChangeUser.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 5);
-		gbc_btnChangeUser.gridx = 2;
+		gbc_btnChangeUser.gridx = 3;
 		gbc_btnChangeUser.gridy = 0;
 		controlPane.add(btnCangeUser, gbc_btnChangeUser);
 
-		// 次のページのツイートを取得する
-		JButton btnMoreTweet = new JButton(moreTweetAction);
+		btnMoreTweet = new JButton(moreTweetAction);
 		GridBagConstraints gbc_btnMoreTweet = new GridBagConstraints();
-		gbc_btnMoreTweet.insets = new Insets(0, 0, 0, 5);
 		gbc_btnMoreTweet.anchor = GridBagConstraints.NORTHEAST;
-		gbc_btnMoreTweet.gridx = 3;
+		gbc_btnMoreTweet.gridx = 4;
 		gbc_btnMoreTweet.gridy = 0;
 		controlPane.add(btnMoreTweet, gbc_btnMoreTweet);
 
@@ -203,4 +232,17 @@ public class ViewControler extends JFrame {
 			twitterListModel.addTweetModel(manager.nextPage());
 		}
 	}
+
+	private class MoreHomeTimelineAction extends AbstractAction {
+		public MoreHomeTimelineAction() {
+			putValue(NAME, "More...");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("MORE_HOME");
+			twitterListModel.addTweetModel(cliant.getNextHomeTimeLine());
+		}
+	}
+
 }

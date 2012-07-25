@@ -15,7 +15,7 @@ public class TweetListCellRenderer extends JLabel implements ListCellRenderer<Tw
 	public Component getListCellRendererComponent(JList<? extends TweetModel> list, TweetModel value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		NewTwitterListRow row = new NewTwitterListRow();
-		row.setUserName(" "+value.getName());
+		row.setUserName(value.getName());
 		row.setTweetText(value.getText());
 		return row;
 	}
