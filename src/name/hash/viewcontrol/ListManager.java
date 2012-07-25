@@ -7,16 +7,20 @@ import name.hash.QueryStringBuilder;
 import name.hash.TweetModel;
 import name.hash.TwitterApiConectionService;
 import name.hash.TwitterXmlParser;
+import name.hash.twitterprovider.Twiter4JCliant;
 
 public class ListManager implements TwitterListManager {
 	private long id = -1;
 	private String userName;
 	private int page = 1;
 	private int count = 10;
+	Twiter4JCliant cliant = new Twiter4JCliant();
 
 	enum State {
 		Home, User
 	}
+
+	private State s = State.Home;
 
 	public ListManager(String name) {
 		userName = name;
@@ -64,19 +68,23 @@ public class ListManager implements TwitterListManager {
 
 	@Override
 	public List<TweetModel> getHomeTimeline() {
-		// TODO Auto-generated method stub
-		return null;
+		s = State.Home;
+		return cliant.getHomeTimeLine();
 	}
 
 	@Override
 	public List<TweetModel> getUserTimeline() {
-		// TODO Auto-generated method stub
-		return null;
+		s = State.User;
+		return cliant.getUserTimeLine(userName);
 	}
 
 	@Override
 	public List<TweetModel> getMoreTimeline() {
-		// TODO Auto-generated method stub
-		return null;
+		if (s == State.Home) {
+			return cliant.getNextHomeTimeLine();
+		} else if (s == State.User) {
+			return nextPage();
+		}
+		return Collections.emptyList();
 	}
 }

@@ -49,9 +49,7 @@ public class ViewControler extends JFrame {
 	private JTextField nameField;
 	private final Action changeUserAction = new ChangeUserAction();
 	private final Action moreTweetAction = new MoreTweetAction();
-	private final Action moreHomeTimelineAction = new MoreHomeTimelineAction();
 	private ListManager manager;
-	private Twiter4JCliant cliant = new Twiter4JCliant();
 	private TwitterListModel twitterListModel;
 	private JToggleButton userHomeChange;
 	private JButton btnMoreTweet;
@@ -106,14 +104,10 @@ public class ViewControler extends JFrame {
 			public void stateChanged(ChangeEvent ce) {
 				if (userHomeChange.isSelected()) {
 					twitterListModel.allRemoveTweetModel();
-					twitterListModel.addTweetModel(cliant.getHomeTimeLine());
-					btnMoreTweet.removeActionListener(moreTweetAction);
-					btnMoreTweet.addActionListener(moreHomeTimelineAction);
+					twitterListModel.addTweetModel(manager.getHomeTimeline());
 				} else {
 					twitterListModel.allRemoveTweetModel();
-					twitterListModel.addTweetModel(manager.getList());
-					btnMoreTweet.removeActionListener(moreHomeTimelineAction);
-					btnMoreTweet.addActionListener(moreTweetAction);
+					twitterListModel.addTweetModel(manager.getUserTimeline());
 				}
 			}
 		});
@@ -136,6 +130,7 @@ public class ViewControler extends JFrame {
 		controlPane.add(txtpnName, gbc_txtpnName);
 
 		nameField = new JTextField();
+		nameField.setText("DruckerBOT");
 		nameField.setBackground(SystemColor.text);
 		GridBagConstraints gbc_nameField = new GridBagConstraints();
 		gbc_nameField.fill = GridBagConstraints.HORIZONTAL;
@@ -162,7 +157,7 @@ public class ViewControler extends JFrame {
 		controlPane.add(btnMoreTweet, gbc_btnMoreTweet);
 
 		manager = new ListManager("jihou");
-		twitterListModel = new TwitterListModel(manager.getList());
+		twitterListModel = new TwitterListModel(manager.getHomeTimeline());
 		JList<TweetModel> list = new JList<>(twitterListModel);
 		list.setBorder(new MatteBorder(0, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		list.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -214,7 +209,7 @@ public class ViewControler extends JFrame {
 			if (text.length() > 0) {
 				manager.changeUser(text);
 				twitterListModel.allRemoveTweetModel();
-				twitterListModel.addTweetModel(manager.getList());
+				twitterListModel.addTweetModel(manager.getUserTimeline());
 			} else {
 				System.out.println("User name field is empty");
 			}
@@ -229,20 +224,7 @@ public class ViewControler extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("MORE");
-			twitterListModel.addTweetModel(manager.nextPage());
+			twitterListModel.addTweetModel(manager.getMoreTimeline());
 		}
 	}
-
-	private class MoreHomeTimelineAction extends AbstractAction {
-		public MoreHomeTimelineAction() {
-			putValue(NAME, "More...");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("MORE_HOME");
-			twitterListModel.addTweetModel(cliant.getNextHomeTimeLine());
-		}
-	}
-
 }

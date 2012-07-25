@@ -18,7 +18,7 @@ import twitter4j.TwitterFactory;
 public class Twiter4JCliant {
 	private Twitter tw = TwitterFactory.getSingleton();
 	private Paging page = new Paging(1);
-
+	
 	public List<TweetModel> getUserTimeLine(String name) {
 		try {
 			ResponseList<Status> list = tw.getUserTimeline(name);
