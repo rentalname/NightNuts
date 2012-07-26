@@ -99,6 +99,7 @@ public class ViewControler extends JFrame {
 		gbl_controlPane.rowWeights = new double[] { 0.0 };
 		controlPane.setLayout(gbl_controlPane);
 
+		//FIXME:‰Šúó‘Ô‚Ìİ’è‚ª‚¨‚©‚µ‚¢‚Ì‚Å,Œ©’¼‚µ‚ª•K—v
 		userHomeChange = new JToggleButton();
 		userHomeChange.setMargin(new Insets(2, 4, 2, 4));
 		userHomeChange.setMaximumSize(new Dimension(64, 32));
@@ -158,7 +159,6 @@ public class ViewControler extends JFrame {
 		btnCangeUser.setMinimumSize(new Dimension(32, 32));
 		btnCangeUser.setPreferredSize(new Dimension(32, 32));
 		btnCangeUser.setIcon(new ImageIcon("./misc/changeUser.png"));
-		btnCangeUser.setEnabled(false);
 		GridBagConstraints gbc_btnChangeUser = new GridBagConstraints();
 		gbc_btnChangeUser.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 5);
