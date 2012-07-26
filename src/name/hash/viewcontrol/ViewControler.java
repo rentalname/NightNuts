@@ -155,6 +155,7 @@ public class ViewControler extends JFrame {
 		nameField.setColumns(10);
 
 		btnCangeUser = new JButton(changeUserAction);
+		btnCangeUser.setText("");
 		btnCangeUser.setMaximumSize(new Dimension(32, 32));
 		btnCangeUser.setMinimumSize(new Dimension(32, 32));
 		btnCangeUser.setPreferredSize(new Dimension(32, 32));
