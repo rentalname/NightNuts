@@ -39,6 +39,7 @@ import name.hash.twitterprovider.Twiter4JCliant;
 import javax.swing.JToggleButton;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
@@ -93,9 +94,9 @@ public class ViewControler extends JFrame {
 		JPanel controlPane = new JPanel();
 		contentPane.add(controlPane, BorderLayout.SOUTH);
 		GridBagLayout gbl_controlPane = new GridBagLayout();
-		gbl_controlPane.columnWidths = new int[] { 0, 50, 179, 90, 50 };
-		gbl_controlPane.rowHeights = new int[] { 21 };
-		gbl_controlPane.columnWeights = new double[] { 0.0, 0.0, 2.0, 1.5, 1.5 };
+		gbl_controlPane.columnWidths = new int[] { 0, 50, 179, 75, 32 };
+		gbl_controlPane.rowHeights = new int[] { 32 };
+		gbl_controlPane.columnWeights = new double[] { 0.0, 0.0, 2.0, 1.5, 0.0 };
 		gbl_controlPane.rowWeights = new double[] { 0.0 };
 		controlPane.setLayout(gbl_controlPane);
 
@@ -150,6 +151,14 @@ public class ViewControler extends JFrame {
 		controlPane.add(btnCangeUser, gbc_btnChangeUser);
 
 		btnMoreTweet = new JButton(moreTweetAction);
+		btnMoreTweet.setBorderPainted(false);
+		btnMoreTweet.setMaximumSize(new Dimension(64, 64));
+		btnMoreTweet.setMinimumSize(new Dimension(32, 32));
+		btnMoreTweet.setToolTipText("Get more tweet");
+		btnMoreTweet.setPreferredSize(new Dimension(32, 32));
+		btnMoreTweet.setIconTextGap(0);
+		btnMoreTweet.setText("");
+		btnMoreTweet.setMargin(new Insets(1, 1, 1, 1));
 		GridBagConstraints gbc_btnMoreTweet = new GridBagConstraints();
 		gbc_btnMoreTweet.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnMoreTweet.gridx = 4;
@@ -218,6 +227,7 @@ public class ViewControler extends JFrame {
 
 	private class MoreTweetAction extends AbstractAction {
 		public MoreTweetAction() {
+			putValue(LARGE_ICON_KEY, new ImageIcon("C:\\gitrep\\NightNuts\\misc\\new-content.png"));
 			putValue(NAME, "More...");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}

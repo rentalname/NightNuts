@@ -3,6 +3,7 @@
 *.xml
 *.cld
 twitter4j.properties
+Thumbs.db
 .settings/
 .config/
 bin/

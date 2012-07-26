@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import name.hash.TweetModel;
-
-import org.junit.Assert;
-
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -18,9 +15,13 @@ import twitter4j.TwitterFactory;
 public class Twiter4JCliant {
 	private Twitter tw = TwitterFactory.getSingleton();
 	private Paging page = new Paging(1);
-	public List<TweetModel> getNextUserTimeline(){
-		
+
+	public List<TweetModel> getNextUserTimeline() {
+		//TODO:
+		return Collections.emptyList();
+
 	}
+
 	public List<TweetModel> getUserTimeLine(String name) {
 		try {
 			ResponseList<Status> list = tw.getUserTimeline(name);
@@ -33,7 +34,9 @@ public class Twiter4JCliant {
 
 	public List<TweetModel> getNextHomeTimeLine() {
 		page.setPage(page.getPage() + 1);
-		Assert.assertTrue(page.getPage() > 0);
+		if (page.getPage() > 0) {
+			System.err.println(getClass().getSimpleName() + ":Paging object is less than 0");
+		}
 		return getHomeTimeLine(page);
 	}
 
@@ -65,5 +68,4 @@ public class Twiter4JCliant {
 			System.out.println(s.getText());
 		}
 	}
-
 }
