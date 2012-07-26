@@ -7,6 +7,7 @@ import java.awt.SystemColor;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.Dimension;
 
 public class NewTwitterListRow extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +27,7 @@ public class NewTwitterListRow extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		JPanel userNameColumn = new JPanel();
+		userNameColumn.setMaximumSize(new Dimension(240, 32767));
 		userNameColumn.setBorder(null);
 		add(userNameColumn);
 		userNameColumn.setLayout(new GridLayout(0, 1, 0, 0));

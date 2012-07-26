@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -29,17 +30,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import name.hash.TweetModel;
-import name.hash.twitterprovider.Twiter4JCliant;
-
-import javax.swing.JToggleButton;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
@@ -54,6 +52,7 @@ public class ViewControler extends JFrame {
 	private TwitterListModel twitterListModel;
 	private JToggleButton userHomeChange;
 	private JButton btnMoreTweet;
+	private JButton btnCangeUser;
 
 	/**
 	 * Launch the application.
@@ -100,15 +99,27 @@ public class ViewControler extends JFrame {
 		gbl_controlPane.rowWeights = new double[] { 0.0 };
 		controlPane.setLayout(gbl_controlPane);
 
-		userHomeChange = new JToggleButton("H/U");
+		userHomeChange = new JToggleButton();
+		userHomeChange.setMargin(new Insets(2, 4, 2, 4));
+		userHomeChange.setMaximumSize(new Dimension(64, 32));
+		userHomeChange.setMinimumSize(new Dimension(64, 32));
+		userHomeChange.setPreferredSize(new Dimension(64, 32));
+		userHomeChange.setIcon(new ImageIcon("./misc/Home2User.png"));
+		userHomeChange.setBorder(null);
 		userHomeChange.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent ce) {
 				if (userHomeChange.isSelected()) {
 					twitterListModel.allRemoveTweetModel();
 					twitterListModel.addTweetModel(manager.getHomeTimeline());
+					userHomeChange.setIcon(new ImageIcon("./misc/Home2User.png"));
+					nameField.setEnabled(false);
+					btnCangeUser.setEnabled(false);
 				} else {
 					twitterListModel.allRemoveTweetModel();
 					twitterListModel.addTweetModel(manager.getUserTimeline());
+					userHomeChange.setIcon(new ImageIcon("./misc/User2Home.png"));
+					nameField.setEnabled(true);
+					btnCangeUser.setEnabled(true);
 				}
 			}
 		});
@@ -131,6 +142,7 @@ public class ViewControler extends JFrame {
 		controlPane.add(txtpnName, gbc_txtpnName);
 
 		nameField = new JTextField();
+		nameField.setEnabled(false);
 		nameField.setText("DruckerBOT");
 		nameField.setBackground(SystemColor.text);
 		GridBagConstraints gbc_nameField = new GridBagConstraints();
@@ -141,8 +153,12 @@ public class ViewControler extends JFrame {
 		controlPane.add(nameField, gbc_nameField);
 		nameField.setColumns(10);
 
-		// タイムライン取得対象のユーザーを変更する
-		JButton btnCangeUser = new JButton(changeUserAction);
+		btnCangeUser = new JButton(changeUserAction);
+		btnCangeUser.setMaximumSize(new Dimension(32, 32));
+		btnCangeUser.setMinimumSize(new Dimension(32, 32));
+		btnCangeUser.setPreferredSize(new Dimension(32, 32));
+		btnCangeUser.setIcon(new ImageIcon("./misc/changeUser.png"));
+		btnCangeUser.setEnabled(false);
 		GridBagConstraints gbc_btnChangeUser = new GridBagConstraints();
 		gbc_btnChangeUser.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 5);
@@ -156,8 +172,6 @@ public class ViewControler extends JFrame {
 		btnMoreTweet.setMinimumSize(new Dimension(32, 32));
 		btnMoreTweet.setToolTipText("Get more tweet");
 		btnMoreTweet.setPreferredSize(new Dimension(32, 32));
-		btnMoreTweet.setIconTextGap(0);
-		btnMoreTweet.setText("");
 		btnMoreTweet.setMargin(new Insets(1, 1, 1, 1));
 		GridBagConstraints gbc_btnMoreTweet = new GridBagConstraints();
 		gbc_btnMoreTweet.anchor = GridBagConstraints.NORTHEAST;
@@ -227,9 +241,8 @@ public class ViewControler extends JFrame {
 
 	private class MoreTweetAction extends AbstractAction {
 		public MoreTweetAction() {
-			putValue(LARGE_ICON_KEY, new ImageIcon("C:\\gitrep\\NightNuts\\misc\\new-content.png"));
-			putValue(NAME, "More...");
-			putValue(SHORT_DESCRIPTION, "Some short description");
+			putValue(LARGE_ICON_KEY, new ImageIcon("./misc/new-content.png"));
+			putValue(SHORT_DESCRIPTION, "Add Tweet For List View");
 		}
 
 		public void actionPerformed(ActionEvent e) {

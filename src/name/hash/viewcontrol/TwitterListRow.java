@@ -75,14 +75,14 @@ public class TwitterListRow extends JPanel {
 		gbc_1.gridx = 1;
 		gbc_1.gridy = 0;
 		add(tweetTextColumn, gbc_1);
-		
-				tweetText = new JTextField();
-				tweetTextColumn.add(tweetText);
-				tweetText.setBorder(null);
-				tweetText.setMargin(new Insets(0, 0, 0, 0));
-				tweetText.setBackground(SystemColor.info);
-				tweetText.setEditable(false);
-				tweetText.setColumns(35);
+
+		tweetText = new JTextField();
+		tweetTextColumn.add(tweetText);
+		tweetText.setBorder(null);
+		tweetText.setMargin(new Insets(0, 0, 0, 0));
+		tweetText.setBackground(SystemColor.info);
+		tweetText.setEditable(false);
+		tweetText.setColumns(35);
 
 	}
 }

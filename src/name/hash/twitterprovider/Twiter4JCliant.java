@@ -17,7 +17,7 @@ public class Twiter4JCliant {
 	private Paging page = new Paging(1);
 
 	public List<TweetModel> getNextUserTimeline() {
-		//TODO:
+		//TODO:Implement get user's timeline.
 		return Collections.emptyList();
 
 	}
