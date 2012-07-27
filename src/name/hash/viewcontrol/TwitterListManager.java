@@ -4,14 +4,13 @@ import java.util.List;
 
 import name.hash.TweetModel;
 
-public interface TwitterListManager {
+public interface TwitterListManager<T extends TweetModel> {
 
 	// パースされたデータからTweetListを作成する
-	List<TweetModel> getList();
 
-	List<TweetModel> getHomeTimeline();
+	List<T> getHomeTimeline();
 
-	List<TweetModel> getUserTimeline();
+	List<T> getUserTimeline();
 
-	List<TweetModel> getMoreTimeline();
+	List<T> getMoreTimeline();
 }

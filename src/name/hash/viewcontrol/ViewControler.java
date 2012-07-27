@@ -99,7 +99,6 @@ public class ViewControler extends JFrame {
 		gbl_controlPane.rowWeights = new double[] { 0.0 };
 		controlPane.setLayout(gbl_controlPane);
 
-		//FIXME:初期状態の設定がおかしいので,見直しが必要
 		userHomeChange = new JToggleButton();
 		userHomeChange.setMargin(new Insets(2, 4, 2, 4));
 		userHomeChange.setMaximumSize(new Dimension(64, 32));
@@ -109,18 +108,19 @@ public class ViewControler extends JFrame {
 		userHomeChange.setBorder(null);
 		userHomeChange.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent ce) {
+				//ホームとユーザーの切り替えボタンが押されたら,表示するタイムラインを切り替える
 				if (userHomeChange.isSelected()) {
-					twitterListModel.allRemoveTweetModel();
-					twitterListModel.addTweetModel(manager.getHomeTimeline());
-					userHomeChange.setIcon(new ImageIcon("./misc/Home2User.png"));
-					nameField.setEnabled(false);
-					btnCangeUser.setEnabled(false);
-				} else {
 					twitterListModel.allRemoveTweetModel();
 					twitterListModel.addTweetModel(manager.getUserTimeline());
 					userHomeChange.setIcon(new ImageIcon("./misc/User2Home.png"));
 					nameField.setEnabled(true);
 					btnCangeUser.setEnabled(true);
+				} else {
+					twitterListModel.allRemoveTweetModel();
+					twitterListModel.addTweetModel(manager.getHomeTimeline());
+					userHomeChange.setIcon(new ImageIcon("./misc/Home2User.png"));
+					nameField.setEnabled(false);
+					btnCangeUser.setEnabled(false);
 				}
 			}
 		});
@@ -155,25 +155,26 @@ public class ViewControler extends JFrame {
 		nameField.setColumns(10);
 
 		btnCangeUser = new JButton(changeUserAction);
-		btnCangeUser.setText("");
+		btnCangeUser.setEnabled(false);
 		btnCangeUser.setMaximumSize(new Dimension(32, 32));
 		btnCangeUser.setMinimumSize(new Dimension(32, 32));
 		btnCangeUser.setPreferredSize(new Dimension(32, 32));
 		btnCangeUser.setIcon(new ImageIcon("./misc/changeUser.png"));
 		GridBagConstraints gbc_btnChangeUser = new GridBagConstraints();
 		gbc_btnChangeUser.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 5);
+		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 0);
 		gbc_btnChangeUser.gridx = 3;
 		gbc_btnChangeUser.gridy = 0;
 		controlPane.add(btnCangeUser, gbc_btnChangeUser);
 
 		btnMoreTweet = new JButton(moreTweetAction);
 		btnMoreTweet.setBorderPainted(false);
+		btnMoreTweet.setMargin(new Insets(1, 1, 1, 1));
+		btnMoreTweet.setToolTipText("Get more tweet");
 		btnMoreTweet.setMaximumSize(new Dimension(64, 64));
 		btnMoreTweet.setMinimumSize(new Dimension(32, 32));
-		btnMoreTweet.setToolTipText("Get more tweet");
 		btnMoreTweet.setPreferredSize(new Dimension(32, 32));
-		btnMoreTweet.setMargin(new Insets(1, 1, 1, 1));
+		btnMoreTweet.setIcon(new ImageIcon("./misc/new-content.png"));
 		GridBagConstraints gbc_btnMoreTweet = new GridBagConstraints();
 		gbc_btnMoreTweet.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnMoreTweet.gridx = 4;
@@ -200,8 +201,8 @@ public class ViewControler extends JFrame {
 		}
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String str = br.readLine();
-			String[] split = str.split(",");
-			frame.setBounds(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0, 0);
+			String[] windowLocate = str.split(",");
+			frame.setBounds(Integer.parseInt(windowLocate[0]), Integer.parseInt(windowLocate[1]), 0, 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -222,13 +223,10 @@ public class ViewControler extends JFrame {
 
 	private class ChangeUserAction extends AbstractAction {
 		public ChangeUserAction() {
-			putValue(NAME, "Change");
-			putValue(SHORT_DESCRIPTION, "Some short description");
+			putValue(SHORT_DESCRIPTION, "Change user");
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("*** CHANGE USER ***");
-
 			String text = nameField.getText();
 			if (text.length() > 0) {
 				manager.changeUser(text);
@@ -242,12 +240,10 @@ public class ViewControler extends JFrame {
 
 	private class MoreTweetAction extends AbstractAction {
 		public MoreTweetAction() {
-			putValue(LARGE_ICON_KEY, new ImageIcon("./misc/new-content.png"));
 			putValue(SHORT_DESCRIPTION, "Add Tweet For List View");
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("MORE");
 			twitterListModel.addTweetModel(manager.getMoreTimeline());
 		}
 	}

@@ -15,16 +15,16 @@ import twitter4j.TwitterFactory;
 public class Twiter4JCliant {
 	private Twitter tw = TwitterFactory.getSingleton();
 	private Paging page = new Paging(1);
+	private String userName;
 
-	public List<TweetModel> getNextUserTimeline() {
-		//TODO:Implement get user's timeline.
-		return Collections.emptyList();
-
+	public List<TweetModel> getHomeTimeLine() {
+		return getHomeTimeLine(resetPage());
 	}
 
 	public List<TweetModel> getUserTimeLine(String name) {
+		userName = name;
 		try {
-			ResponseList<Status> list = tw.getUserTimeline(name);
+			ResponseList<Status> list = tw.getUserTimeline(name, resetPage());
 			return convertList(list);
 		} catch (TwitterException e) {
 			e.printStackTrace();
@@ -33,11 +33,11 @@ public class Twiter4JCliant {
 	}
 
 	public List<TweetModel> getNextHomeTimeLine() {
-		page.setPage(page.getPage() + 1);
-		if (page.getPage() > 0) {
-			System.err.println(getClass().getSimpleName() + ":Paging object is less than 0");
-		}
-		return getHomeTimeLine(page);
+		return getHomeTimeLine(followingPage());
+	}
+
+	public List<TweetModel> getNextUserTimeline() {
+		return getUserTimeLine(followingPage());
 	}
 
 	public List<TweetModel> getHomeTimeLine(Paging p) {
@@ -50,8 +50,14 @@ public class Twiter4JCliant {
 		return Collections.emptyList();
 	}
 
-	public List<TweetModel> getHomeTimeLine() {
-		return getHomeTimeLine(new Paging(1));
+	public List<TweetModel> getUserTimeLine(Paging p) {
+		try {
+			ResponseList<Status> userTimeline = tw.getUserTimeline(userName, p);
+			return convertList(userTimeline);
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
 	}
 
 	private List<TweetModel> convertList(ResponseList<Status> list) {
@@ -62,10 +68,20 @@ public class Twiter4JCliant {
 		return tmList;
 	}
 
-	@SuppressWarnings("unused")
-	private void showStatus(ResponseList<Status> list) {
-		for (Status s : list) {
-			System.out.println(s.getText());
+	private Paging followingPage() {
+		page.setPage(page.getPage() + 1);
+		if (page.getPage() < 0) {
+			System.err.println(getClass().getSimpleName() + ":Paging object is less than 0");
 		}
+		return page;
+	}
+
+	private Paging resetPage() {
+		page.setPage(1);
+		return page;
+	}
+
+	public void setPagingCount(int num) {
+		page.setCount(num);
 	}
 }
