@@ -1,6 +1,7 @@
 *.classpath
 *.project
 *.xml
+!build.xml
 *.cld
 twitter4j.properties
 Thumbs.db
@@ -8,3 +9,4 @@ Thumbs.db
 .config/
 bin/
 .git/
+/R.jar

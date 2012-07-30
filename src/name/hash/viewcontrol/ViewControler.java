@@ -137,7 +137,6 @@ public class ViewControler extends JFrame {
 		txtpnName.setText("name :");
 		GridBagConstraints gbc_txtpnName = new GridBagConstraints();
 		gbc_txtpnName.anchor = GridBagConstraints.EAST;
-		gbc_txtpnName.insets = new Insets(0, 0, 0, 5);
 		gbc_txtpnName.gridx = 1;
 		gbc_txtpnName.gridy = 0;
 		controlPane.add(txtpnName, gbc_txtpnName);
