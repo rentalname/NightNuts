@@ -42,6 +42,8 @@ import name.hash.TweetModel;
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
 
+	private static final ImageIcon iconHome2User = new ImageIcon(ViewControler.class.getResource("/Home2User.png"));
+	private static final ImageIcon iconUser2Home = new ImageIcon(ViewControler.class.getResource("/User2Home.png"));
 	private static final String CONFIGURATION_DIR = "./.config/";
 	private static final String CONFIGURATION_FILE = CONFIGURATION_DIR + "window_config";
 	private JPanel contentPane;
@@ -104,21 +106,21 @@ public class ViewControler extends JFrame {
 		userHomeChange.setMaximumSize(new Dimension(64, 32));
 		userHomeChange.setMinimumSize(new Dimension(64, 32));
 		userHomeChange.setPreferredSize(new Dimension(64, 32));
-		userHomeChange.setIcon(new ImageIcon("./misc/Home2User.png"));
+		userHomeChange.setIcon(iconHome2User);
 		userHomeChange.setBorder(null);
 		userHomeChange.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent ce) {
-				//ホームとユーザーの切り替えボタンが押されたら,表示するタイムラインを切り替える
+				// ホームとユーザーの切り替えボタンが押されたら,表示するタイムラインを切り替える
 				if (userHomeChange.isSelected()) {
 					twitterListModel.allRemoveTweetModel();
 					twitterListModel.addTweetModel(manager.getUserTimeline());
-					userHomeChange.setIcon(new ImageIcon("./misc/User2Home.png"));
+					userHomeChange.setIcon(iconUser2Home);
 					nameField.setEnabled(true);
 					btnCangeUser.setEnabled(true);
 				} else {
 					twitterListModel.allRemoveTweetModel();
 					twitterListModel.addTweetModel(manager.getHomeTimeline());
-					userHomeChange.setIcon(new ImageIcon("./misc/Home2User.png"));
+					userHomeChange.setIcon(iconHome2User);
 					nameField.setEnabled(false);
 					btnCangeUser.setEnabled(false);
 				}
@@ -158,7 +160,7 @@ public class ViewControler extends JFrame {
 		btnCangeUser.setMaximumSize(new Dimension(32, 32));
 		btnCangeUser.setMinimumSize(new Dimension(32, 32));
 		btnCangeUser.setPreferredSize(new Dimension(32, 32));
-		btnCangeUser.setIcon(new ImageIcon("./misc/changeUser.png"));
+		btnCangeUser.setIcon(new ImageIcon(ViewControler.class.getResource("/changeUser.png")));
 		GridBagConstraints gbc_btnChangeUser = new GridBagConstraints();
 		gbc_btnChangeUser.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 0);
@@ -173,7 +175,7 @@ public class ViewControler extends JFrame {
 		btnMoreTweet.setMaximumSize(new Dimension(64, 64));
 		btnMoreTweet.setMinimumSize(new Dimension(32, 32));
 		btnMoreTweet.setPreferredSize(new Dimension(32, 32));
-		btnMoreTweet.setIcon(new ImageIcon("./misc/new-content.png"));
+		btnMoreTweet.setIcon(new ImageIcon(ViewControler.class.getResource("/new-content.png")));
 		GridBagConstraints gbc_btnMoreTweet = new GridBagConstraints();
 		gbc_btnMoreTweet.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnMoreTweet.gridx = 4;
