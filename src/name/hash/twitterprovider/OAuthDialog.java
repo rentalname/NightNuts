@@ -23,6 +23,7 @@ public class OAuthDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private JTextField txtPin;
+	private JEditorPane hyperLinkText;
 
 	/**
 	 * Launch the application.
@@ -35,6 +36,16 @@ public class OAuthDialog extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * ダイアログにPINコード発行するために必要なサイトへのURLを表示する
+	 * 
+	 * @param url
+	 *            PINコード取得サイトへのURL
+	 */
+	public void setReqestURL(String url) {
+		hyperLinkText.setText(convertHyperLink(url));
 	}
 
 	/**
@@ -71,9 +82,10 @@ public class OAuthDialog extends JDialog {
 		gbc_contentPanel.gridy = 1;
 		getContentPane().add(contentPanel, gbc_contentPanel);
 		{
-			String MYSITE = "TEST";
-			JEditorPane hyperLinkText = new JEditorPane("text/html", "<html><a href='" + MYSITE + "'>" + MYSITE
-					+ "</a>");
+			String SAMPLE_URL = "http://example.com";
+			hyperLinkText = new JEditorPane();
+			hyperLinkText.setContentType("text/html");
+			hyperLinkText.setText(convertHyperLink(SAMPLE_URL));
 			hyperLinkText.setPreferredSize(new Dimension(150, 19));
 			hyperLinkText.setEditable(false);
 			contentPanel.add(hyperLinkText);
@@ -124,5 +136,9 @@ public class OAuthDialog extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	private String convertHyperLink(String url) {
+		return "<html><a href='" + url + "'>" + url + "</a>";
 	}
 }
