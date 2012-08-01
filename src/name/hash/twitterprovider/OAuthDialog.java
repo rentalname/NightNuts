@@ -1,4 +1,4 @@
-package name.hash.viewcontrol;
+package name.hash.twitterprovider;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -113,6 +113,7 @@ public class OAuthDialog extends JDialog {
 			getContentPane().add(buttonPane, gbc_buttonPane);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setEnabled(false);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

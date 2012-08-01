@@ -1,5 +1,6 @@
 package name.hash.twitterprovider;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,9 +14,29 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
 public class Twiter4JCliant {
+	private static final String TWITTER_PROPERTY_FILE = "twitter4j.properties";
 	private Twitter tw = TwitterFactory.getSingleton();
 	private Paging page = new Paging(1);
 	private String userName;
+
+	public Twiter4JCliant() {
+		initializeSetting();
+	}
+
+	private void initializeSetting() {
+		if (!checkExistProperty()) {
+			OAuthDialog dialog = new OAuthDialog();
+			dialog.setVisible(true);
+		}
+	}
+
+	/**
+	 * twitter4j.propertiesファイルの存在を確認する
+	 */
+	private boolean checkExistProperty() {
+		File file = new File(TWITTER_PROPERTY_FILE);
+		return file.exists();
+	}
 
 	public List<TweetModel> getHomeTimeLine() {
 		return getHomeTimeLine(resetPage());
