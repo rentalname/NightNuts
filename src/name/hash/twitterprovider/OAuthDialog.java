@@ -54,10 +54,10 @@ public class OAuthDialog extends JDialog {
 	public OAuthDialog() {
 		setBounds(100, 100, 450, 300);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 442, 0 };
-		gridBagLayout.rowHeights = new int[] { 66, 66, 66, 66, 0 };
+		gridBagLayout.columnWidths = new int[] {442};
+		gridBagLayout.rowHeights = new int[] {66, 66, 66, 66};
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0 };
 		getContentPane().setLayout(gridBagLayout);
 		{
 			JPanel messagePane = new JPanel();

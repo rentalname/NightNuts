@@ -8,7 +8,7 @@ import name.hash.twitterprovider.Twiter4JCliant;
 
 public class ListManager implements TwitterListManager<TweetModel> {
 	private String userName;
-	Twiter4JCliant cliant = new Twiter4JCliant();
+	Twiter4JCliant cliant = Twiter4JCliant.cliantFactory();
 
 	enum State {
 		Home, User

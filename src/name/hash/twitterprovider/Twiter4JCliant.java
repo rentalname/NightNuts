@@ -12,6 +12,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.auth.RequestToken;
 
 public class Twiter4JCliant {
 	private static final String TWITTER_PROPERTY_FILE = "twitter4j.properties";
@@ -19,13 +20,16 @@ public class Twiter4JCliant {
 	private Paging page = new Paging(1);
 	private String userName;
 
-	public Twiter4JCliant() {
+	private Twiter4JCliant() {
 		initializeSetting();
 	}
-
+	public static Twiter4JCliant cliantFactory(){
+		return new Twiter4JCliant();
+	}
 	private void initializeSetting() {
 		if (!checkExistProperty()) {
 			OAuthDialog dialog = new OAuthDialog();
+			dialog.setReqestURL(getRequestURL());
 			dialog.setVisible(true);
 		}
 	}
@@ -36,6 +40,23 @@ public class Twiter4JCliant {
 	private boolean checkExistProperty() {
 		File file = new File(TWITTER_PROPERTY_FILE);
 		return file.exists();
+	}
+
+	/**
+	 * Get request token URL
+	 * 
+	 * @return
+	 *         request token URL
+	 */
+	private String getRequestURL() {
+		try {
+			 tw.setOAuthConsumer("dAIeKD8aBEWjwdyyRkz1g", "S0I6BtqfJo3EkbZWi5EDyRA5u3HhVVePj2ltBJiW6UI");
+			RequestToken requestToken = tw.getOAuthRequestToken();
+			return requestToken.getAuthenticationURL();
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return "https://api.twitter.com/oauth/request_token";
 	}
 
 	public List<TweetModel> getHomeTimeLine() {
