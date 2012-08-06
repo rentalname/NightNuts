@@ -59,7 +59,6 @@ public class ViewControler extends JFrame {
 	private JButton btnMoreTweet;
 	private JButton btnCangeUser;
 	private JButton btnDebug;
-	private final Action action = new SwingAction();
 
 	/**
 	 * Launch the application.
@@ -100,9 +99,9 @@ public class ViewControler extends JFrame {
 		JPanel controlPane = new JPanel();
 		contentPane.add(controlPane, BorderLayout.SOUTH);
 		GridBagLayout gbl_controlPane = new GridBagLayout();
-		gbl_controlPane.columnWidths = new int[] { 0, 50, 179, 75, 0, 32 };
+		gbl_controlPane.columnWidths = new int[] { 0, 50, 179, 75, 32 };
 		gbl_controlPane.rowHeights = new int[] { 32 };
-		gbl_controlPane.columnWeights = new double[] { 0.0, 0.0, 2.0, 1.5, 0.0, 0.0 };
+		gbl_controlPane.columnWeights = new double[] { 0.0, 0.0, 2.0, 1.5, 0.0 };
 		gbl_controlPane.rowWeights = new double[] { 0.0 };
 		controlPane.setLayout(gbl_controlPane);
 
@@ -174,14 +173,6 @@ public class ViewControler extends JFrame {
 		gbc_btnChangeUser.gridy = 0;
 		controlPane.add(btnCangeUser, gbc_btnChangeUser);
 		
-		btnDebug = new JButton("Debug");
-		btnDebug.setAction(action);
-		GridBagConstraints gbc_btnDebug = new GridBagConstraints();
-		gbc_btnDebug.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDebug.gridx = 4;
-		gbc_btnDebug.gridy = 0;
-		controlPane.add(btnDebug, gbc_btnDebug);
-
 		btnMoreTweet = new JButton(moreTweetAction);
 		btnMoreTweet.setBorderPainted(false);
 		btnMoreTweet.setMargin(new Insets(1, 1, 1, 1));
@@ -192,7 +183,7 @@ public class ViewControler extends JFrame {
 		btnMoreTweet.setIcon(new ImageIcon(ViewControler.class.getResource("/new-content.png")));
 		GridBagConstraints gbc_btnMoreTweet = new GridBagConstraints();
 		gbc_btnMoreTweet.anchor = GridBagConstraints.NORTHEAST;
-		gbc_btnMoreTweet.gridx = 5;
+		gbc_btnMoreTweet.gridx = 4;
 		gbc_btnMoreTweet.gridy = 0;
 		controlPane.add(btnMoreTweet, gbc_btnMoreTweet);
 
@@ -260,15 +251,6 @@ public class ViewControler extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			twitterListModel.addTweetModel(manager.getMoreTimeline());
-		}
-	}
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "Debug");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-			Twiter4JCliant.getInstance().startOAuthDialog();
 		}
 	}
 }

@@ -11,18 +11,49 @@ import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.RequestToken;
 
-public class Twiter4JCliant {
-	private static final String TWITTER_PROPERTY_FILE = "twitter4j.properties";
-	private Twitter tw = TwitterFactory.getSingleton();
+public class Twiter4JCliant implements Runnable{
+	static final String TWITTER_PROPERTY_FILE = "twitter4j.properties";
+	private Twitter tw;
 	private Paging page = new Paging(1);
 	private String userName;
 	private static Twiter4JCliant instance;
-
+	@Override
+	public void run() {
+		try {
+			while (!checkExistProperty()) {
+				wait();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	private Twiter4JCliant() {
-		initializeSetting();
+		if (!checkExistProperty()) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					InitializeProperty property = new InitializeProperty(TWITTER_PROPERTY_FILE);
+					try {
+						while (!property.isSettingEnd()) {
+							Thread.sleep(200);
+						}
+						notifyAll();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
+		new Thread(this).start();
+	}
+
+	/**
+	 * twitter4j.propertiesファイルの存在を確認する
+	 */
+	private boolean checkExistProperty() {
+		File file = new File(Twiter4JCliant.TWITTER_PROPERTY_FILE);
+		return file.exists();
 	}
 
 	public static Twiter4JCliant getInstance() {
@@ -30,56 +61,6 @@ public class Twiter4JCliant {
 			instance = new Twiter4JCliant();
 		}
 		return instance;
-	}
-
-	private void initializeSetting() {
-		if (!checkExistProperty()) {
-			OAuthDialog dialog = new OAuthDialog();
-			dialog.setURL(getRequestURL());
-			dialog.setVisible(true);
-		}
-	}
-
-	/**
-	 * デバッグ用API
-	 * OAuthダイアログを強制的に起動する
-	 */
-	public void startOAuthDialog() {
-		OAuthDialog dialog = new OAuthDialog();
-		try {
-			dialog.setURL(tw.getOAuthRequestToken().getAuthenticationURL());
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-		dialog.setVisible(true);
-	}
-
-	/**
-	 * twitter4j.propertiesファイルの存在を確認する
-	 */
-	private boolean checkExistProperty() {
-		File file = new File(TWITTER_PROPERTY_FILE);
-		return file.exists();
-	}
-
-	/**
-	 * Get request token URL
-	 * 
-	 * @return
-	 *         request token URL
-	 */
-	private String getRequestURL() {
-		// TODO：秘密キーを公開しているので,リリース時には取り替える必要がある
-		try {
-			tw.setOAuthConsumer("dAIeKD8aBEWjwdyyRkz1g", "S0I6BtqfJo3EkbZWi5EDyRA5u3HhVVePj2ltBJiW6UI");
-			RequestToken requestToken = tw.getOAuthRequestToken();
-			return requestToken.getAuthenticationURL();
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-		
-		return "https://example.com/error";
-//		return "https://api.twitter.com/oauth/request_token";
 	}
 
 	public List<TweetModel> getHomeTimeLine() {
@@ -149,4 +130,6 @@ public class Twiter4JCliant {
 	public void setPagingCount(int num) {
 		page.setCount(num);
 	}
+
+	
 }

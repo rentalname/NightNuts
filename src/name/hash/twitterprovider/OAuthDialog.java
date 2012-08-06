@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class OAuthDialog extends JDialog {
 
@@ -56,7 +58,7 @@ public class OAuthDialog extends JDialog {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {442};
 		gridBagLayout.rowHeights = new int[] {66, 66, 66, 66};
-		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 1.0 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0 };
 		getContentPane().setLayout(gridBagLayout);
 		{
@@ -132,6 +134,10 @@ public class OAuthDialog extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
