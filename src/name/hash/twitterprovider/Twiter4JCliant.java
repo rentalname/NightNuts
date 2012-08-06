@@ -19,19 +19,39 @@ public class Twiter4JCliant {
 	private Twitter tw = TwitterFactory.getSingleton();
 	private Paging page = new Paging(1);
 	private String userName;
+	private static Twiter4JCliant instance;
 
 	private Twiter4JCliant() {
 		initializeSetting();
 	}
-	public static Twiter4JCliant cliantFactory(){
-		return new Twiter4JCliant();
+
+	public static Twiter4JCliant getInstance() {
+		if (instance == null) {
+			instance = new Twiter4JCliant();
+		}
+		return instance;
 	}
+
 	private void initializeSetting() {
 		if (!checkExistProperty()) {
 			OAuthDialog dialog = new OAuthDialog();
-			dialog.setReqestURL(getRequestURL());
+			dialog.setURL(getRequestURL());
 			dialog.setVisible(true);
 		}
+	}
+
+	/**
+	 * デバッグ用API
+	 * OAuthダイアログを強制的に起動する
+	 */
+	public void startOAuthDialog() {
+		OAuthDialog dialog = new OAuthDialog();
+		try {
+			dialog.setURL(tw.getOAuthRequestToken().getAuthenticationURL());
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		dialog.setVisible(true);
 	}
 
 	/**
@@ -49,14 +69,17 @@ public class Twiter4JCliant {
 	 *         request token URL
 	 */
 	private String getRequestURL() {
+		// TODO：秘密キーを公開しているので,リリース時には取り替える必要がある
 		try {
-			 tw.setOAuthConsumer("dAIeKD8aBEWjwdyyRkz1g", "S0I6BtqfJo3EkbZWi5EDyRA5u3HhVVePj2ltBJiW6UI");
+			tw.setOAuthConsumer("dAIeKD8aBEWjwdyyRkz1g", "S0I6BtqfJo3EkbZWi5EDyRA5u3HhVVePj2ltBJiW6UI");
 			RequestToken requestToken = tw.getOAuthRequestToken();
 			return requestToken.getAuthenticationURL();
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
-		return "https://api.twitter.com/oauth/request_token";
+		
+		return "https://example.com/error";
+//		return "https://api.twitter.com/oauth/request_token";
 	}
 
 	public List<TweetModel> getHomeTimeLine() {

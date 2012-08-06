@@ -44,7 +44,7 @@ public class OAuthDialog extends JDialog {
 	 * @param url
 	 *            PINコード取得サイトへのURL
 	 */
-	public void setReqestURL(String url) {
+	public void setURL(String url) {
 		hyperLinkText.setText(convertHyperLink(url));
 	}
 
