@@ -10,3 +10,4 @@ Thumbs.db
 bin/
 .git/
 /R.jar
+.externalToolBuilders/
