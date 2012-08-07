@@ -1,7 +1,5 @@
 package name.hash.twitterprovider;
 
-import java.io.File;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -29,7 +27,8 @@ public class InitializeProperty {
 	}
 
 	private void initializeSetting() {
-		OAuthDialog dialog = new OAuthDialog();
+		OAuthDialog.createDialog();
+		OAuthDialog dialog = OAuthDialog.dialog;
 		dialog.setURL(getRequestURL());
 		dialog.setVisible(true);
 	}

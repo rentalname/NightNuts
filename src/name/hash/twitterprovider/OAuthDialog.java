@@ -12,12 +12,13 @@ import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class OAuthDialog extends JDialog {
-
+	public static OAuthDialog dialog;
 	/**
 	 * 
 	 */
@@ -26,18 +27,21 @@ public class OAuthDialog extends JDialog {
 	private JTextField textField;
 	private JTextField txtPin;
 	private JEditorPane hyperLinkText;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			OAuthDialog dialog = new OAuthDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	
+	public static void createDialog() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					OAuthDialog dialog = new OAuthDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+					OAuthDialog.dialog = dialog;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
@@ -56,8 +60,8 @@ public class OAuthDialog extends JDialog {
 	public OAuthDialog() {
 		setBounds(100, 100, 450, 300);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] {442};
-		gridBagLayout.rowHeights = new int[] {66, 66, 66, 66};
+		gridBagLayout.columnWidths = new int[] { 442 };
+		gridBagLayout.rowHeights = new int[] { 66, 66, 66, 66 };
 		gridBagLayout.columnWeights = new double[] { 1.0 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0 };
 		getContentPane().setLayout(gridBagLayout);

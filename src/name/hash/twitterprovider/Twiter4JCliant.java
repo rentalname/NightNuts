@@ -58,10 +58,11 @@ public class Twiter4JCliant{
 			}
 		}.start();
 
+		
 		// ‰Šúİ’è‚ğ‘Ò‚¿ó‚¯‚é‚½‚ß‚Ìƒ|[ƒŠƒ“ƒO
 		try {
 			while (tw == null) {
-				Thread.sleep(10);
+				Thread.sleep(1000);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
