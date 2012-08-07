@@ -38,9 +38,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import name.hash.TweetModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import name.hash.twitterprovider.*;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {
@@ -58,7 +55,6 @@ public class ViewControler extends JFrame {
 	private JToggleButton userHomeChange;
 	private JButton btnMoreTweet;
 	private JButton btnCangeUser;
-	private JButton btnDebug;
 
 	/**
 	 * Launch the application.
@@ -142,7 +138,6 @@ public class ViewControler extends JFrame {
 		txtpnName.setEditable(false);
 		txtpnName.setText("name :");
 		GridBagConstraints gbc_txtpnName = new GridBagConstraints();
-		gbc_txtpnName.insets = new Insets(0, 0, 0, 5);
 		gbc_txtpnName.anchor = GridBagConstraints.EAST;
 		gbc_txtpnName.gridx = 1;
 		gbc_txtpnName.gridy = 0;
@@ -168,11 +163,11 @@ public class ViewControler extends JFrame {
 		btnCangeUser.setIcon(new ImageIcon(ViewControler.class.getResource("/changeUser.png")));
 		GridBagConstraints gbc_btnChangeUser = new GridBagConstraints();
 		gbc_btnChangeUser.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 5);
+		gbc_btnChangeUser.insets = new Insets(0, 0, 0, 0);
 		gbc_btnChangeUser.gridx = 3;
 		gbc_btnChangeUser.gridy = 0;
 		controlPane.add(btnCangeUser, gbc_btnChangeUser);
-		
+
 		btnMoreTweet = new JButton(moreTweetAction);
 		btnMoreTweet.setBorderPainted(false);
 		btnMoreTweet.setMargin(new Insets(1, 1, 1, 1));

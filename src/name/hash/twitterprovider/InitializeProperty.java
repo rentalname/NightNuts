@@ -25,6 +25,7 @@ public class InitializeProperty {
 	public InitializeProperty(String toURI) {
 		uri = toURI;
 		twitter = new TwitterFactory().getInstance();
+		initializeSetting();
 	}
 
 	private void initializeSetting() {
@@ -32,8 +33,9 @@ public class InitializeProperty {
 		dialog.setURL(getRequestURL());
 		dialog.setVisible(true);
 	}
-	boolean isSettingEnd(){
-		if(state == State.end){
+
+	boolean isSettingEnd() {
+		if (state == State.end) {
 			return true;
 		}
 		return false;

@@ -13,29 +13,18 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
-public class Twiter4JCliant implements Runnable {
+public class Twiter4JCliant{
 	static final String TWITTER_PROPERTY_FILE = "twitter4j.properties";
 	private Twitter tw;
 	private Paging page = new Paging(1);
 	private String userName;
 	private static Twiter4JCliant instance;
 
-	@Override
-	public void run() {
-		try {
-			while (!checkExistProperty()) {
-				wait();
-			}
-			tw = TwitterFactory.getSingleton();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * プロパティファイルの存在を確認して,ファイルが存在しない場合{@link InitializeProperty}クラスからプロパティファイルの生成を行う
 	 */
 	private Twiter4JCliant() {
+		// 設定ファイルが存在していることを確認して,存在しない時,初期設定クラスを呼び出す
 		if (!checkExistProperty()) {
 			new Thread(new Runnable() {
 				@Override
@@ -51,8 +40,25 @@ public class Twiter4JCliant implements Runnable {
 					}
 				}
 			}).start();
+		} else {
+			tw = TwitterFactory.getSingleton();
+			return;
 		}
-		new Thread(this).start();
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					while (!checkExistProperty()) {
+						Thread.sleep(100);
+					}
+					tw = TwitterFactory.getSingleton();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+
+		// 初期設定を待ち受けるためのポーリング
 		try {
 			while (tw == null) {
 				Thread.sleep(10);
@@ -144,5 +150,4 @@ public class Twiter4JCliant implements Runnable {
 	public void setPagingCount(int num) {
 		page.setCount(num);
 	}
-
 }
