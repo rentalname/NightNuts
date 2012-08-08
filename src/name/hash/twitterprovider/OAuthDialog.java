@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -12,13 +14,11 @@ import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.HyperlinkEvent;
 
 public class OAuthDialog extends JDialog {
-	public static OAuthDialog dialog;
 	/**
 	 * 
 	 */
@@ -27,21 +27,22 @@ public class OAuthDialog extends JDialog {
 	private JTextField textField;
 	private JTextField txtPin;
 	private JEditorPane hyperLinkText;
-	
-	public static void createDialog() {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					OAuthDialog dialog = new OAuthDialog();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setVisible(true);
-					OAuthDialog.dialog = dialog;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	DialogInputListener inputListener;
+
+	public static void createDialog(String url, DialogInputListener listener) {
+		try {
+			OAuthDialog dialog = new OAuthDialog();
+			dialog.setListener(listener);
+			dialog.setURL(url);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void setListener(DialogInputListener listener) {
+		inputListener = listener;
 	}
 
 	/**
@@ -80,7 +81,10 @@ public class OAuthDialog extends JDialog {
 				messagePane.add(txtpnoauthpin);
 			}
 		}
-		contentPanel.setLayout(new FlowLayout());
+		FlowLayout fl_contentPanel = new FlowLayout();
+		fl_contentPanel.setHgap(0);
+		fl_contentPanel.setVgap(13);
+		contentPanel.setLayout(fl_contentPanel);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		GridBagConstraints gbc_contentPanel = new GridBagConstraints();
 		gbc_contentPanel.fill = GridBagConstraints.BOTH;
@@ -90,9 +94,16 @@ public class OAuthDialog extends JDialog {
 		{
 			String SAMPLE_URL = "http://example.com";
 			hyperLinkText = new JEditorPane();
+			hyperLinkText.addHyperlinkListener(new HyperlinkListener() {
+				public void hyperlinkUpdate(HyperlinkEvent ev) {
+					System.out.println(ev.getDescription());
+				}
+			});
+			hyperLinkText.setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 10));
+			hyperLinkText.setSize(new Dimension(220, 20));
 			hyperLinkText.setContentType("text/html");
 			hyperLinkText.setText(convertHyperLink(SAMPLE_URL));
-			hyperLinkText.setPreferredSize(new Dimension(150, 19));
+			hyperLinkText.setPreferredSize(new Dimension(210, 19));
 			hyperLinkText.setEditable(false);
 			contentPanel.add(hyperLinkText);
 		}

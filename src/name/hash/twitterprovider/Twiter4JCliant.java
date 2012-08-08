@@ -13,15 +13,17 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
-public class Twiter4JCliant{
+public class Twiter4JCliant {
 	static final String TWITTER_PROPERTY_FILE = "twitter4j.properties";
 	private Twitter tw;
 	private Paging page = new Paging(1);
 	private String userName;
 	private static Twiter4JCliant instance;
+	private boolean isSettingComplete;
 
 	/**
-	 * プロパティファイルの存在を確認して,ファイルが存在しない場合{@link InitializeProperty}クラスからプロパティファイルの生成を行う
+	 * プロパティファイルの存在を確認して,ファイルが存在しない場合{@link InitializeProperty}クラスから
+	 * {@link OAuthDialog}を生成して,プロパティファイルの生成を行う
 	 */
 	private Twiter4JCliant() {
 		// 設定ファイルが存在していることを確認して,存在しない時,初期設定クラスを呼び出す
@@ -32,7 +34,7 @@ public class Twiter4JCliant{
 					InitializeProperty property = new InitializeProperty(TWITTER_PROPERTY_FILE);
 					try {
 						while (!property.isSettingEnd()) {
-							Thread.sleep(200);
+							Thread.sleep(60);
 						}
 						notifyAll();
 					} catch (InterruptedException e) {
@@ -40,32 +42,23 @@ public class Twiter4JCliant{
 					}
 				}
 			}).start();
-		} else {
-			tw = TwitterFactory.getSingleton();
-			return;
-		}
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					while (!checkExistProperty()) {
-						Thread.sleep(100);
-					}
-					tw = TwitterFactory.getSingleton();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
 
-		
-		// 初期設定を待ち受けるためのポーリング
-		try {
-			while (tw == null) {
-				Thread.sleep(1000);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						while (!checkExistProperty()) {
+							Thread.sleep(60);
+						}
+						tw = TwitterFactory.getSingleton();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		} else {
+			isSettingComplete = true;
+			tw = TwitterFactory.getSingleton();
 		}
 	}
 
@@ -84,12 +77,32 @@ public class Twiter4JCliant{
 		return instance;
 	}
 
+	/**
+	 * 自分のタイムラインを返す.
+	 * 初期設定が終了していなかった場合,空のタイムラインリストを返す
+	 * 
+	 * @return 自分のタイムライン
+	 */
 	public List<TweetModel> getHomeTimeLine() {
+		if (!isSettingComplete) {
+			return Collections.emptyList();
+		}
 		return getHomeTimeLine(resetPage());
 	}
 
+	/**
+	 * 指定したユーザのタイムラインを返す
+	 * 初期設定が終了していなかった場合,空のタイムラインリストを返す
+	 * 
+	 * @param name
+	 *            対象ユーザのスクリーンネーム
+	 * @return ユーザのタイムライン
+	 */
 	public List<TweetModel> getUserTimeLine(String name) {
 		userName = name;
+		if (!isSettingComplete) {
+			return Collections.emptyList();
+		}
 		try {
 			ResponseList<Status> list = tw.getUserTimeline(name, resetPage());
 			return convertList(list);
