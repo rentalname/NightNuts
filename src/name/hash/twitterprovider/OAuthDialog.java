@@ -18,6 +18,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
+/**
+ * ダイアログを表示して,OAuth認証に必要なPINコードをWebから取得することをユーザに促す
+ * ユーザに,PINコードを入力させて,入力結果を呼び出し元のリスナー実装クラスへ返す
+ * 
+ * @author Hi
+ * 
+ */
 public class OAuthDialog extends JDialog {
 	/**
 	 * 

@@ -4,7 +4,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
-import twitter4j.auth.OAuthAuthorization;
 import twitter4j.auth.RequestToken;
 
 /**
@@ -66,7 +65,10 @@ public class InitializeProperty implements DialogInputListener {
 	public void update(String pinCode) {
 		doOAuth(pinCode);
 	}
-
+	/**
+	 * OAuth認証によってオースアクセストークンを取得する
+	 * @param pinCode
+	 */
 	private void doOAuth(String pinCode) {
 		try {
 			AccessToken oAuthAccessToken = twitter.getOAuthAccessToken(requestToken, pinCode);
