@@ -1,5 +1,6 @@
 package name.hash.twitterprovider;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -7,6 +8,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,15 +22,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 /**
  * ダイアログを表示して,OAuth認証に必要なPINコードをWebから取得することをユーザに促す
  * ユーザに,PINコードを入力させて,入力結果を呼び出し元のリスナー実装クラスへ返す
  * 
  * @author Hi
- * 
  */
 public class OAuthDialog extends JDialog {
 	/**
@@ -35,6 +41,7 @@ public class OAuthDialog extends JDialog {
 	private JTextField txtPin;
 	private JEditorPane hyperLinkText;
 	DialogInputListener inputListener;
+	private JButton okButton;
 
 	public static void createDialog(String url, DialogInputListener listener) {
 		try {
@@ -101,13 +108,24 @@ public class OAuthDialog extends JDialog {
 		{
 			String SAMPLE_URL = "http://example.com";
 			hyperLinkText = new JEditorPane();
+			/*
+			 * JEitorPaneに表示したハイパーリンクに対して,リスナーを登録する
+			 * リスナーに渡されるイベントの種類
+			 * @EventType.ENTERED ハイパーリンクをマウスオーバー
+			 * @EventType.ACTIVATE ハイパーリンクをクリックした時
+			 * @EventType.EXIT ハイパーリンクの上からマウスアウト
+			 */
 			hyperLinkText.addHyperlinkListener(new HyperlinkListener() {
 				public void hyperlinkUpdate(HyperlinkEvent ev) {
-					System.out.println(ev.getDescription());
+					if (ev.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+						System.out.println(ev.getURL());
+						startBrowser(ev.getURL());
+					}
+					System.out.println(ev.getEventType().toString());
 				}
 			});
 			hyperLinkText.setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 10));
-			hyperLinkText.setSize(new Dimension(220, 20));
+			hyperLinkText.setSize(new Dimension(500, 20));
 			hyperLinkText.setContentType("text/html");
 			hyperLinkText.setText(convertHyperLink(SAMPLE_URL));
 			hyperLinkText.setPreferredSize(new Dimension(210, 19));
@@ -133,6 +151,12 @@ public class OAuthDialog extends JDialog {
 			}
 			{
 				textField = new JTextField();
+				textField.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+						okButtonEnabled();
+					}
+				});
 				textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 14));
 				inputPINPane.add(textField);
 				textField.setColumns(16);
@@ -148,7 +172,13 @@ public class OAuthDialog extends JDialog {
 			gbc_buttonPane.gridy = 3;
 			getContentPane().add(buttonPane, gbc_buttonPane);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("PUSH OK");
+						inputListener.update(textField.getText());
+					}
+				});
 				okButton.setEnabled(false);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -158,11 +188,38 @@ public class OAuthDialog extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						// ダイアログを不可視状態にすることでダイアログを閉じる
+						OAuthDialog.this.setVisible(false);
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
+		}
+	}
+
+	/**
+	 * 渡された{@link java.net.URL}を{@link java.net.URI}に変換して,
+	 * その{@link URI}を使用してデスクトップ標準のブラウザを起動する
+	 * 
+	 * @param url
+	 */
+	private void startBrowser(URL url) {
+		Desktop desktop = Desktop.getDesktop();
+
+		try {
+			desktop.browse(new URI(url.toString()));
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void okButtonEnabled() {
+		System.out.println(textField.getText());
+		if (textField.getText().length() != 0) {
+			okButton.setEnabled(true);
+		} else {
+			okButton.setEnabled(false);
 		}
 	}
 
