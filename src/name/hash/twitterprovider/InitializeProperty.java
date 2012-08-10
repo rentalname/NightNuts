@@ -1,5 +1,10 @@
 package name.hash.twitterprovider;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -13,6 +18,8 @@ import twitter4j.auth.RequestToken;
  * @author User
  */
 public class InitializeProperty implements DialogInputListener {
+	static final String SECURE_ACCESS_TOKEN_DIR = "./.secure";
+	static final String SECURE_ACCESS_TOKEN = "./.secure/access_token";
 	Twitter twitter;
 	State state = State.start;
 	String uri;
@@ -65,8 +72,10 @@ public class InitializeProperty implements DialogInputListener {
 	public void update(String pinCode) {
 		doOAuth(pinCode);
 	}
+
 	/**
 	 * OAuth認証によってオースアクセストークンを取得する
+	 * 
 	 * @param pinCode
 	 */
 	private void doOAuth(String pinCode) {
@@ -80,12 +89,26 @@ public class InitializeProperty implements DialogInputListener {
 
 	/**
 	 * アクセストークンを永続化する
+	 * 
 	 * @param oAuthAccessToken
 	 */
 	private void saveAccessToken(AccessToken oAuthAccessToken) {
-		//TODO:アクセストークンをファイルに保存する
+		// TODO:アクセストークンをファイルに保存する
 		String token = oAuthAccessToken.getToken();
 		String tokenSecret = oAuthAccessToken.getTokenSecret();
 		System.out.println(token + ":" + tokenSecret);
+
+		File secureDirectory = new File(SECURE_ACCESS_TOKEN_DIR);
+		File accessTokenFile = new File(SECURE_ACCESS_TOKEN);
+		if (!secureDirectory.exists()) {
+			secureDirectory.mkdirs();
+		}
+		try (FileWriter fileWriter = new FileWriter(accessTokenFile);
+				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+			bufferedWriter.write(token + "\n");
+			bufferedWriter.write(tokenSecret + "\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

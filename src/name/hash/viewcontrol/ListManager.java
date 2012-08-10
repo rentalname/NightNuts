@@ -10,9 +10,8 @@ public class ListManager implements TwitterListManager<TweetModel> {
 	private String userName;
 	Twiter4JCliant cliant = Twiter4JCliant.getInstance();
 	enum State {
-		Home, User
+		Home, User,Init
 	}
-
 	private State s;
 
 	public ListManager(String name) {
@@ -30,7 +29,7 @@ public class ListManager implements TwitterListManager<TweetModel> {
 	@Override
 	public List<TweetModel> getHomeTimeline() {
 		s = State.Home;
-		return cliant.getHomeTimeLine();
+		return cliant.getHomeTimeLine() ;
 	}
 
 	@Override

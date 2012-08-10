@@ -10,4 +10,5 @@ Thumbs.db
 bin/
 .git/
 /R.jar
+/misc/oauthfile
 .externalToolBuilders/

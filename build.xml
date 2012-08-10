@@ -80,6 +80,7 @@
 			<fileset dir="misc">
 				<include name="**/*.png" />
 			</fileset>
+			<fileset file="./misc/oauthfile" /> 
 		</jar>
 	</target>
 	<target name="RegressionTest">
