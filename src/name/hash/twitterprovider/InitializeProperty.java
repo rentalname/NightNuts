@@ -18,8 +18,6 @@ import twitter4j.auth.RequestToken;
  * @author User
  */
 public class InitializeProperty implements DialogInputListener {
-	static final String SECURE_ACCESS_TOKEN_DIR = "./.secure";
-	static final String SECURE_ACCESS_TOKEN = "./.secure/access_token";
 	Twitter twitter;
 	State state = State.start;
 	String uri;
@@ -93,13 +91,12 @@ public class InitializeProperty implements DialogInputListener {
 	 * @param oAuthAccessToken
 	 */
 	private void saveAccessToken(AccessToken oAuthAccessToken) {
-		// TODO:アクセストークンをファイルに保存する
 		String token = oAuthAccessToken.getToken();
 		String tokenSecret = oAuthAccessToken.getTokenSecret();
 		System.out.println(token + ":" + tokenSecret);
 
-		File secureDirectory = new File(SECURE_ACCESS_TOKEN_DIR);
-		File accessTokenFile = new File(SECURE_ACCESS_TOKEN);
+		File secureDirectory = new File(LoadConfigureProperty.SECURE_ACCESS_TOKEN_DIR);
+		File accessTokenFile = new File(LoadConfigureProperty.SECURE_ACCESS_TOKEN);
 		if (!secureDirectory.exists()) {
 			secureDirectory.mkdirs();
 		}

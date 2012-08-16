@@ -15,7 +15,6 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class Twiter4JCliant {
-	static final String TWITTER_PROPERTY_FILE = InitializeProperty.SECURE_ACCESS_TOKEN;
 	private Twitter tw;
 	private Paging page = new Paging(1);
 	private String userName;
@@ -25,7 +24,8 @@ public class Twiter4JCliant {
 
 	/**
 	 * プロパティファイル{@link InitializeProperty.SECURE_ACCESS_TOKEN}の存在を確認して,
-	 * ファイルが存在しない場合{@link InitializeProperty}クラスから{@link OAuthDialog}を生成して,プロパティファイルの生成を行う
+	 * ファイルが存在しない場合{@link InitializeProperty}クラスから{@link OAuthDialog}
+	 * を生成して,プロパティファイルの生成を行う
 	 */
 	private Twiter4JCliant() {
 		// 設定ファイルが存在していることを確認して,存在しない時,初期設定クラスを呼び出す
@@ -33,7 +33,7 @@ public class Twiter4JCliant {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					InitializeProperty property = new InitializeProperty(TWITTER_PROPERTY_FILE);
+					InitializeProperty property = new InitializeProperty(LoadConfigureProperty.SECURE_ACCESS_TOKEN);
 					try {
 						while (!property.isSettingEnd()) {
 							Thread.sleep(60);
@@ -52,7 +52,7 @@ public class Twiter4JCliant {
 						while (!checkExistProperty()) {
 							Thread.sleep(60);
 						}
-						tw = TwitterFactory.getSingleton();
+						clientInitialize();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -81,7 +81,7 @@ public class Twiter4JCliant {
 	 * twitter4j.propertiesファイルの存在を確認する
 	 */
 	private boolean checkExistProperty() {
-		File file = new File(Twiter4JCliant.TWITTER_PROPERTY_FILE);
+		File file = new File(LoadConfigureProperty.SECURE_ACCESS_TOKEN);
 		return file.exists();
 	}
 
@@ -93,8 +93,7 @@ public class Twiter4JCliant {
 	}
 
 	/**
-	 * 自分のタイムラインを返す.
-	 * 初期設定が終了していなかった場合,空のタイムラインリストを返す
+	 * 自分のタイムラインを返す. 初期設定が終了していなかった場合,空のタイムラインリストを返す
 	 * 
 	 * @return 自分のタイムライン
 	 */
@@ -108,8 +107,7 @@ public class Twiter4JCliant {
 	}
 
 	/**
-	 * 指定したユーザのタイムラインを返す
-	 * 初期設定が終了していなかった場合,空のタイムラインリストを返す
+	 * 指定したユーザのタイムラインを返す 初期設定が終了していなかった場合,空のタイムラインリストを返す
 	 * 
 	 * @param name
 	 *            対象ユーザのスクリーンネーム

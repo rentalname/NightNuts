@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class LoadConfigureProperty {
+	static final String SECURE_ACCESS_TOKEN_DIR = "./.secure";
+	static final String SECURE_ACCESS_TOKEN = "./.secure/access_token";
 	private String consumerKey;
 	private String consumerKeySecret;
 	private String accessToken;
@@ -25,7 +27,7 @@ public class LoadConfigureProperty {
 			e.printStackTrace();
 		}
 
-		File acceseTokenFile = new File(InitializeProperty.SECURE_ACCESS_TOKEN);
+		File acceseTokenFile = new File(SECURE_ACCESS_TOKEN);
 		try (BufferedReader br = new BufferedReader(new FileReader(acceseTokenFile))) {
 			accessToken = br.readLine();
 			accessTokenSecret = br.readLine();

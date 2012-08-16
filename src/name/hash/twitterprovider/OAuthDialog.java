@@ -177,6 +177,7 @@ public class OAuthDialog extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						System.out.println("PUSH OK");
 						inputListener.update(textField.getText());
+						OAuthDialog.this.setVisible(false);
 					}
 				});
 				okButton.setEnabled(false);
