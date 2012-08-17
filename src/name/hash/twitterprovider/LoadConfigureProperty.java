@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import name.hash.NN;
+
 public class LoadConfigureProperty {
 	static final String SECURE_ACCESS_TOKEN_DIR = "./.secure";
 	static final String SECURE_ACCESS_TOKEN = "./.secure/access_token";
@@ -24,6 +26,7 @@ public class LoadConfigureProperty {
 			consumerKey = br.readLine();
 			consumerKeySecret = br.readLine();
 		} catch (IOException e) {
+			NN.log.error(e.getCause());
 			e.printStackTrace();
 		}
 
@@ -32,6 +35,7 @@ public class LoadConfigureProperty {
 			accessToken = br.readLine();
 			accessTokenSecret = br.readLine();
 		} catch (IOException e) {
+			NN.log.error(e.getCause());
 			e.printStackTrace();
 		}
 	}
