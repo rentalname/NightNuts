@@ -2,7 +2,7 @@ package name.hash.viewcontrol;
 
 import java.util.List;
 
-import name.hash.TweetModel;
+import name.hash.model.TweetModel;
 
 public interface TwitterListManager<T extends TweetModel> {
 

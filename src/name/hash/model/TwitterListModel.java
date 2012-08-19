@@ -1,4 +1,4 @@
-package name.hash.viewcontrol;
+package name.hash.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,7 +9,6 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import name.hash.TweetModel;
 
 /**
  * ツイート内容を表示するためのリストのモデルをビューに提供する
@@ -20,6 +19,12 @@ public class TwitterListModel implements ListModel<TweetModel> {
 	Set<ListDataListener> set = new HashSet<>();
 	List<TweetModel> list = new ArrayList<>();
 
+	public TwitterListModel(List<TweetModel> tList) {
+		for (TweetModel m : tList) {
+			list.add(m);
+		}
+	}
+
 	/**
 	 * 与えられたString配列を,TweetModelオブジェクトに変換してリストに登録する
 	 * 
@@ -29,12 +34,6 @@ public class TwitterListModel implements ListModel<TweetModel> {
 	public TwitterListModel(String[] sArray) {
 		for (String s : sArray) {
 			list.add(new TweetModel(0, s, s, "999999"));
-		}
-	}
-
-	public TwitterListModel(List<TweetModel> tList) {
-		for (TweetModel m : tList) {
-			list.add(m);
 		}
 	}
 
@@ -49,15 +48,33 @@ public class TwitterListModel implements ListModel<TweetModel> {
 		set.add(listener);
 	}
 
+	public void addTweetModel(List<TweetModel> list) {
+		for (TweetModel model : list) {
+			addTweetModel(model);
+		}
+	}
+
 	/**
-	 * 指定されたリスナーの登録を解除する
+	 * リストに新たな要素を追加する
 	 * 
-	 * @param listener
-	 *            このリスナーの登録を解除する
+	 * @param model
 	 */
-	@Override
-	public void removeListDataListener(ListDataListener listener) {
-		set.remove(listener);
+	public void addTweetModel(TweetModel model) {
+		list.add(model);
+		for (ListDataListener l : set) {
+			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, list.size(), list.size()));
+		}
+	}
+
+	/**
+	 * リストの要素をすべて取り除く
+	 */
+	public void allRemoveTweetModel() {
+		int modelIndex = list.size();
+		list.clear();
+		for (ListDataListener l : set) {
+			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, 0, modelIndex));
+		}
 	}
 
 	/**
@@ -79,21 +96,14 @@ public class TwitterListModel implements ListModel<TweetModel> {
 	}
 
 	/**
-	 * リストに新たな要素を追加する
+	 * 指定されたリスナーの登録を解除する
 	 * 
-	 * @param model
+	 * @param listener
+	 *            このリスナーの登録を解除する
 	 */
-	public void addTweetModel(TweetModel model) {
-		list.add(model);
-		for (ListDataListener l : set) {
-			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, list.size(), list.size()));
-		}
-	}
-
-	public void addTweetModel(List<TweetModel> list) {
-		for (TweetModel model : list) {
-			addTweetModel(model);
-		}
+	@Override
+	public void removeListDataListener(ListDataListener listener) {
+		set.remove(listener);
 	}
 
 	/**
@@ -106,14 +116,6 @@ public class TwitterListModel implements ListModel<TweetModel> {
 		list.remove(model);
 		for (ListDataListener l : set) {
 			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, modelIndex, list.size()));
-		}
-	}
-
-	public void allRemoveTweetModel() {
-		int modelIndex = list.size();
-		list.clear();
-		for (ListDataListener l : set) {
-			l.contentsChanged(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, 0, modelIndex));
 		}
 	}
 }

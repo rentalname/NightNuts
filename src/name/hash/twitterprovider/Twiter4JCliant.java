@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import name.hash.TweetModel;
+import name.hash.model.TweetModel;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;

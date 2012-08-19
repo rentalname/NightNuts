@@ -128,7 +128,7 @@ public class OAuthDialog extends JDialog {
 			hyperLinkText.setSize(new Dimension(500, 20));
 			hyperLinkText.setContentType("text/html");
 			hyperLinkText.setText(convertHyperLink(SAMPLE_URL));
-			hyperLinkText.setPreferredSize(new Dimension(210, 19));
+			hyperLinkText.setPreferredSize(new Dimension(330, 19));
 			hyperLinkText.setEditable(false);
 			contentPanel.add(hyperLinkText);
 		}

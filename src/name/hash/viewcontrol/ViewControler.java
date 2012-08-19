@@ -37,7 +37,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import name.hash.TweetModel;
+import name.hash.model.TweetModel;
+import name.hash.model.TwitterListModel;
 
 @SuppressWarnings("serial")
 public class ViewControler extends JFrame {

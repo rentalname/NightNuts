@@ -1,7 +1,7 @@
 package name.hash.regressiontest;
 
-import name.hash.TweetModel;
-import name.hash.viewcontrol.TwitterListModel;
+import name.hash.model.TweetModel;
+import name.hash.model.TwitterListModel;
 
 import org.junit.Assert;
 import org.junit.Test;

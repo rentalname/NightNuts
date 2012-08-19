@@ -2,15 +2,12 @@ package name.hash.viewcontrol;
 
 import java.awt.Component;
 
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import name.hash.TweetModel;
+import name.hash.model.TweetModel;
 
-public class TweetListCellRenderer extends JLabel implements ListCellRenderer<TweetModel> {
-	private static final long serialVersionUID = 1L;
-
+public class TweetListCellRenderer implements ListCellRenderer<TweetModel> {
 	@Override
 	public Component getListCellRendererComponent(JList<? extends TweetModel> list, TweetModel value, int index,
 			boolean isSelected, boolean cellHasFocus) {

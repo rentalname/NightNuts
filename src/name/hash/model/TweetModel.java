@@ -1,4 +1,4 @@
-package name.hash;
+package name.hash.model;
 
 public class TweetModel {
 	long id;
