@@ -27,7 +27,7 @@ public class NewTwitterListRow extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		JPanel userNameColumn = new JPanel();
-		userNameColumn.setMaximumSize(new Dimension(300, 32767));
+		userNameColumn.setMaximumSize(new Dimension(300, 3000));
 		userNameColumn.setBorder(null);
 		add(userNameColumn);
 		userNameColumn.setLayout(new GridLayout(0, 1, 0, 0));
@@ -36,7 +36,7 @@ public class NewTwitterListRow extends JPanel {
 		userName.setMargin(new Insets(0, 3, 0, 0));
 		userName.setBackground(SystemColor.info);
 		userName.setEditable(false);
-		userName.setColumns(12);
+		userName.setColumns(15);
 		userNameColumn.add(userName);
 
 		JPanel tweetTextColumn = new JPanel();
@@ -45,7 +45,7 @@ public class NewTwitterListRow extends JPanel {
 		tweetTextColumn.setLayout(new GridLayout(0, 1, 0, 0));
 
 		tweetText = new JTextField();
-		tweetText.setMargin(new Insets(0, 0, 0, 0));
+		tweetText.setMargin(new Insets(0, 3, 0, 0));
 		tweetText.setBackground(SystemColor.info);
 		tweetText.setEditable(false);
 		tweetText.setColumns(35);
